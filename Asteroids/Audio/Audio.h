@@ -3,6 +3,7 @@
 
 #include <AL/al.h>
 #include <AL/alc.h>
+#include "WAV/WAV.h"
 
 namespace Asteroids {
     class Audio {
@@ -11,7 +12,7 @@ namespace Asteroids {
         ALCcontext* context;
 
     public:
-        Audio();
+        Audio(WAV wav);
         ~Audio();
         static void list_audio_devices();
     };

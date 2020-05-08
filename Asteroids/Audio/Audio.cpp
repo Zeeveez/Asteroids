@@ -4,7 +4,7 @@
 #include <string.h>
 
 namespace Asteroids {
-    Audio::Audio() {
+    Audio::Audio(WAV wav) {
         device = alcOpenDevice(NULL);
         if (!device) {
             throw;
@@ -37,32 +37,11 @@ namespace Asteroids {
         alGenBuffers((ALuint)1, &buffer);
         // check for errors
 
-
-
-        // TODO:Fill buffer
-        const int samples = 200000;
-        short bufferData[samples];
-        int maxAmp = 30000;
-        int dir = 1;
-        short v = 128;
-        int samplerate = 41000;
-        float freq = 213;
-        float step = maxAmp*4*freq / samplerate;
-        for (int i = 0; i < samples; i++) {
-            bufferData[i] = v;
-            v += dir * step;
-            if (v > maxAmp) {
-                v -= (v- maxAmp);
-                dir = -1;
-            }
-            if (v < -maxAmp) {
-                v += (-maxAmp -v);
-                dir = 1;
-            }
+        if (wav.bitsPerSample == 8) {
+            alBufferData(buffer, AL_FORMAT_MONO8, &(wav.data[0]), wav.samples, wav.sampleRate);
+        }else if (wav.bitsPerSample == 16) {
+            alBufferData(buffer, AL_FORMAT_MONO16, &(wav.data[0]), wav.samples, wav.sampleRate);
         }
-        alBufferData(buffer, AL_FORMAT_MONO16, bufferData, samples, samplerate);
-
-
 
         alSourcei(source, AL_BUFFER, buffer);
         // check for errors

@@ -17,6 +17,7 @@
 #include "./Text/Text.h"
 #include "./Text/Menu/Menu.h"
 #include "./Audio/Audio.h"
+#include "./Audio/WAV/WAV.h"
 #include <time.h>
 #include <iostream>
 #include <string>
@@ -26,7 +27,8 @@ void Game(GLFWwindow* window);
 int main() {
     glfwInit();
     GLFWwindow* window = Asteroids::CreateGameWindow(1000, 1000, "OpenGL", Asteroids::key_callback, Asteroids::mouse_callback, Asteroids::character_callback);
-    Asteroids::Audio audio = {};
+    Asteroids::WAV wav("./Explosion.wav");
+    Asteroids::Audio audio(wav);
     Asteroids::Menu menu(
         {
             { "New Game", [window]() { Game(window); } },
