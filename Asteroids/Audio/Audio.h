@@ -8,13 +8,19 @@
 namespace Asteroids {
     class Audio {
     private:
-        ALCdevice* device;
-        ALCcontext* context;
+        static ALCdevice* device;
+        static ALCcontext* context;
+        ALuint source;
+        ALuint buffer;
 
     public:
+        static void LoadDeviceAndContext();
+        static void UnloadDeviceAndContext();
         Audio(WAV wav);
         ~Audio();
-        static void list_audio_devices();
+        void Play();
+        void Pause();
+        void Stop();
     };
 }
 

@@ -7,11 +7,14 @@
 #include "../Rectangle/GameObject/PolyShape/Ship/Ship.h"
 #include "../Shader/Shader.h"
 #include "../IO/IO.h"
+#include "../Audio/Audio.h"
 #include <vector>
 
 namespace Asteroids {
     class AsteroidsGame {
     private:
+        Asteroids::Audio shootSound;
+        Asteroids::Audio explosionSound;
         float width;
         float height;
         int score = 0;

@@ -27,8 +27,7 @@ void Game(GLFWwindow* window);
 int main() {
     glfwInit();
     GLFWwindow* window = Asteroids::CreateGameWindow(1000, 1000, "OpenGL", Asteroids::key_callback, Asteroids::mouse_callback, Asteroids::character_callback);
-    Asteroids::WAV wav("./Explosion.wav");
-    Asteroids::Audio audio(wav);
+    Asteroids::Audio::LoadDeviceAndContext();
     Asteroids::Menu menu(
         {
             { "New Game", [window]() { Game(window); } },
@@ -38,6 +37,7 @@ int main() {
         menu.Show(window);
     }
     glfwTerminate();
+    Asteroids::Audio::UnloadDeviceAndContext();
     return 0;
 }
 

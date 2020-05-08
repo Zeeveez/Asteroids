@@ -1,8 +1,11 @@
 #include "AsteroidsGame.h"
+#include "../Audio/WAV/WAV.h"
 #include <algorithm>
 
 namespace Asteroids {
-    AsteroidsGame::AsteroidsGame(int noAsteroids, float width, float height) : width(width), height(height) {
+    AsteroidsGame::AsteroidsGame(int noAsteroids, float width, float height) : width(width), height(height),
+        explosionSound(Asteroids::Audio(Asteroids::WAV("./Explosion.wav"))),
+        shootSound(Asteroids::Audio(Asteroids::WAV("./Shoot.wav"))) {
         ship = Ship(width / 2, height / 2, 0, 0, 0, 0, &particleSystem);
         ship.Shield(300);
         for (int i = 0; i < noAsteroids; i++) {
@@ -44,6 +47,7 @@ namespace Asteroids {
                 if (bullet.IsAlive() && bullet.GetBounds().Intersects(asteroid.GetBounds())) {
                     score += 100;
                     exploded = true;
+                    explosionSound.Play();
                     bullet.Kill();
                     for (auto& addasteroid : asteroid.Explode()) {
                         newAsteroids.push_back(addasteroid);
@@ -56,6 +60,7 @@ namespace Asteroids {
                     newAsteroids.push_back(addasteroid);
                 }
                 exploded = true;
+                explosionSound.Play();
                 if (!ship.Shield()) {
                     ship.Explode();
                     if (lives--) {
@@ -108,6 +113,7 @@ namespace Asteroids {
             if (inputState.keys[GLFW_KEY_SPACE]) {
                 inputState.keys[GLFW_KEY_SPACE] = false;
                 bullets.push_back(ship.Fire(4));
+                shootSound.Play();
             }
         }
     }

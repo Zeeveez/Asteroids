@@ -1,6 +1,8 @@
 #include "Menu.h"
 #include "../../IO/IO.h"
 #include "../../Timing/Timing.h"
+#include "../../Audio/Audio.h"
+#include "../../Audio/WAV/WAV.h"
 
 namespace Asteroids {
     Menu::Menu(std::vector<std::pair<std::string, std::function<void()>>> options) : options(options) {}
@@ -11,6 +13,7 @@ namespace Asteroids {
         Asteroids::GameTimer timer(0.01666667f);
         Asteroids::Shader textShader("./text");
         Asteroids::Texture font("./font.DDS");
+        Asteroids::Audio selectSound(Asteroids::WAV("./MenuSelect.wav"));
 
         int selection = 0;
         while (true) {
@@ -21,11 +24,13 @@ namespace Asteroids {
                     selection = (selection + options.size() - 1) % options.size();
                     inputState.keys[GLFW_KEY_W] = false;
                     inputState.keys[GLFW_KEY_S] = false;
+                    selectSound.Play();
                 }
                 if (inputState.keys[GLFW_KEY_S]) {
                     selection = (selection + 1) % options.size();
                     inputState.keys[GLFW_KEY_W] = false;
                     inputState.keys[GLFW_KEY_S] = false;
+                    selectSound.Play();
                 }
                 if (inputState.keys[GLFW_KEY_SPACE]) {
                     options[selection].second();
