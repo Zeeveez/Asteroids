@@ -1,8 +1,8 @@
 #ifndef ASTEROID_H
 #define ASTEROID_H
 
-#include "../PolyShape.h"
-#include "../../../../ParticleSystem/ParticleSystem.h"
+#include "Rectangle/GameObject/PolyShape/PolyShape.h"
+#include "ParticleSystem/ParticleSystem.h"
 #include <vector>
 
 namespace Asteroids {

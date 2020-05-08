@@ -35,4 +35,5 @@ configure_file(./Audio/Explosion.wav ${CMAKE_CURRENT_BINARY_DIR}/bin/Explosion.w
 configure_file(./Audio/Shoot.wav ${CMAKE_CURRENT_BINARY_DIR}/bin/Shoot.wav COPYONLY)
 
 # TODO: Add tests and install targets if needed.
+target_include_directories (Asteroids PRIVATE "./")
 target_link_libraries(Asteroids ${CONAN_LIBS})

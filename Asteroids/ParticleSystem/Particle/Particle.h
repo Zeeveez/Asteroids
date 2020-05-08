@@ -1,7 +1,7 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
-#include "../../Shader/Shader.h"
+#include "Shader/Shader.h"
 #include <functional>
 #include <glm/glm.hpp>
 

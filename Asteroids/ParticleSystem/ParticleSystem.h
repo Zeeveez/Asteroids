@@ -1,8 +1,8 @@
 #ifndef PARTICLESYSTEM_H
 #define PARTICLESYSTEM_H
 
-#include "./Particle/Particle.h"
-#include "../Shader/Shader.h"
+#include "Particle/Particle.h"
+#include "Shader/Shader.h"
 #include <vector>
 #include <functional>
 

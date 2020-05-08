@@ -3,7 +3,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
-#include "../Shader/Shader.h"
+#include "Shader/Shader.h"
 
 namespace Asteroids {
     class Texture {

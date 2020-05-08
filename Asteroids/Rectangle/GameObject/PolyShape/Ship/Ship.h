@@ -1,9 +1,9 @@
 #ifndef SHIP_H
 #define SHIP_H
 
-#include "../PolyShape.h"
-#include "../../Bullet/Bullet.h"
-#include "../../../../ParticleSystem/ParticleSystem.h"
+#include "Rectangle/GameObject/PolyShape/PolyShape.h"
+#include "Rectangle/GameObject/Bullet/Bullet.h"
+#include "ParticleSystem/ParticleSystem.h"
 
 namespace Asteroids {
     class Ship : public PolyShape {

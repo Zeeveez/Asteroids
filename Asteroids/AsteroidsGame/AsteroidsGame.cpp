@@ -1,5 +1,5 @@
 #include "AsteroidsGame.h"
-#include "../Audio/WAV/WAV.h"
+#include "Audio/WAV/WAV.h"
 #include <algorithm>
 
 namespace Asteroids {

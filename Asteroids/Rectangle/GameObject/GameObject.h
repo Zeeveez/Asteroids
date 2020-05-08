@@ -1,8 +1,8 @@
 #ifndef GAMEOBJECT_H
 #define GAMEOBJECT_H
 
-#include "../../Shader/Shader.h"
-#include "../Rectangle.h"
+#include "Shader/Shader.h"
+#include "Rectangle/Rectangle.h"
 
 namespace Asteroids {
     class GameObject {

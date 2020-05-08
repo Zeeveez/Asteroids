@@ -1,7 +1,7 @@
 #ifndef BULLET_H
 #define BULLET_H
 
-#include "../GameObject.h"
+#include "Rectangle/GameObject/GameObject.h"
 
 namespace Asteroids {
     class Bullet : public GameObject {

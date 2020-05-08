@@ -1,13 +1,13 @@
 #ifndef ASTEROIDSGAME_H
 #define ASTEROIDSGAME_H
 
-#include "../ParticleSystem/ParticleSystem.h"
-#include "../Rectangle/GameObject/Bullet/Bullet.h"
-#include "../Rectangle/GameObject/PolyShape/Asteroid/Asteroid.h"
-#include "../Rectangle/GameObject/PolyShape/Ship/Ship.h"
-#include "../Shader/Shader.h"
-#include "../IO/IO.h"
-#include "../Audio/Audio.h"
+#include "ParticleSystem/ParticleSystem.h"
+#include "Rectangle/GameObject/Bullet/Bullet.h"
+#include "Rectangle/GameObject/PolyShape/Asteroid/Asteroid.h"
+#include "Rectangle/GameObject/PolyShape/Ship/Ship.h"
+#include "Shader/Shader.h"
+#include "IO/IO.h"
+#include "Audio/Audio.h"
 #include <vector>
 
 namespace Asteroids {

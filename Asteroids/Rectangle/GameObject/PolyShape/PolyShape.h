@@ -1,7 +1,7 @@
 #ifndef POLYSHAPE_H
 #define POLYSHAPE_H
 
-#include "../GameObject.h"
+#include "Rectangle/GameObject/GameObject.h"
 #include <utility>
 #include <vector>
 

@@ -1,8 +1,8 @@
 #include "Menu.h"
-#include "../../IO/IO.h"
-#include "../../Timing/Timing.h"
-#include "../../Audio/Audio.h"
-#include "../../Audio/WAV/WAV.h"
+#include "IO/IO.h"
+#include "Timing/Timing.h"
+#include "Audio/Audio.h"
+#include "Audio/WAV/WAV.h"
 
 namespace Asteroids {
     Menu::Menu(std::vector<std::pair<std::string, std::function<void()>>> options) : options(options) {}
