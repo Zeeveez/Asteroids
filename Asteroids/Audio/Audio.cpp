@@ -1,7 +1,4 @@
 #include "Audio.h"
-#include <cstddef>
-#include <cstdio>
-#include <string.h>
 
 namespace Asteroids {
     ALCdevice* Audio::device = nullptr;

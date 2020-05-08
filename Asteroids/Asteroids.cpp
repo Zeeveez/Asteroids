@@ -18,8 +18,6 @@
 #include "./Text/Menu/Menu.h"
 #include "./Audio/Audio.h"
 #include "./Audio/WAV/WAV.h"
-#include <time.h>
-#include <iostream>
 #include <string>
 
 void Game(GLFWwindow* window);
