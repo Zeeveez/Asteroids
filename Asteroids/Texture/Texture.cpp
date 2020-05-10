@@ -1,9 +1,7 @@
 #include "Texture.h"
 
-#include <stdio.h>
-#include <string.h>
-#include <crtdbg.h>
-#include <corecrt_malloc.h>
+#include <vector>
+#include <iterator>
 
 #define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
 #define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
@@ -11,40 +9,36 @@
 
 namespace Asteroids {
     Texture::Texture(const char* path) {
-        unsigned char header[124];
+        std::ifstream f(path, std::ios::binary);
 
-        FILE* fp;
+        uint32_t fileID;
+        f.read(reinterpret_cast<char*>(&fileID), sizeof(fileID));
+        std::cout << (fileID == 0x20534444);    // "DDS "
 
-        /* try to open the file */
-        fp = fopen(path, "rb");
-        if (fp == NULL)
-            return;
 
-        /* verify the type of file */
-        char filecode[4];
-        fread(filecode, 1, 4, fp);
-        if (strncmp(filecode, "DDS ", 4) != 0) {
-            fclose(fp);
-            return;
-        }
+        uint32_t height;
+        uint32_t width;
+        uint32_t linearSize;
+        uint32_t mipMapCount;
+        uint32_t fourCC;
+        f.seekg(12);
+        f.read(reinterpret_cast<char*>(&height), sizeof(height));
+        f.read(reinterpret_cast<char*>(&width), sizeof(width));
+        f.read(reinterpret_cast<char*>(&linearSize), sizeof(linearSize));
+        f.seekg(28);
+        f.read(reinterpret_cast<char*>(&mipMapCount), sizeof(mipMapCount));
+        f.seekg(84);
+        f.read(reinterpret_cast<char*>(&fourCC), sizeof(fourCC));
 
-        /* get the surface desc */
-        fread(&header, 124, 1, fp);
-
-        unsigned int height = *(unsigned int*)&(header[8]);
-        unsigned int width = *(unsigned int*)&(header[12]);
-        unsigned int linearSize = *(unsigned int*)&(header[16]);
-        unsigned int mipMapCount = *(unsigned int*)&(header[24]);
-        unsigned int fourCC = *(unsigned int*)&(header[80]);
-
-        unsigned char* buffer;
-        unsigned int bufsize;
-        /* how big is it going to be including all mipmaps? */
-        bufsize = mipMapCount > 1 ? linearSize * 2 : linearSize;
-        buffer = (unsigned char*)malloc(bufsize * sizeof(unsigned char));
-        fread(buffer, 1, bufsize, fp);
-        /* close the file pointer */
-        fclose(fp);
+        f.unsetf(std::ios::skipws);
+        uint32_t bufsize = mipMapCount > 1 ? linearSize * 2 : linearSize;
+        std::vector<unsigned char> buffer;
+        f.seekg(128);
+        buffer.reserve(bufsize);
+        buffer.insert(buffer.begin(),
+            std::istream_iterator<unsigned char>(f),
+            std::istream_iterator<unsigned char>());
+        f.close();
 
         unsigned int components = (fourCC == FOURCC_DXT1) ? 3 : 4;
         unsigned int format;
@@ -59,7 +53,6 @@ namespace Asteroids {
             format = GL_COMPRESSED_RGBA_S3TC_DXT5_EXT;
             break;
         default:
-            free(buffer);
             return;
         }
 
@@ -76,13 +69,12 @@ namespace Asteroids {
         for (unsigned int level = 0; level < mipMapCount && (width || height); ++level) {
             unsigned int size = ((width + 3) / 4) * ((height + 3) / 4) * blockSize;
             glCompressedTexImage2D(GL_TEXTURE_2D, level, format, width, height,
-                0, size, buffer + offset);
+                0, size, &buffer[offset]);
 
             offset += size;
             width /= 2;
             height /= 2;
         }
-        free(buffer);
     }
 
     Texture::~Texture() {
