@@ -24,12 +24,14 @@ void Game(GLFWwindow* window);
 
 int main() {
     glfwInit();
-    GLFWwindow* window = Asteroids::CreateGameWindow(1000, 1000, "OpenGL", Asteroids::key_callback, Asteroids::mouse_callback, Asteroids::character_callback);
+    GLFWwindow* window = Asteroids::CreateGameWindow(800, 800, "OpenGL", Asteroids::key_callback, Asteroids::mouse_callback, Asteroids::character_callback);
     Asteroids::Audio::LoadDeviceAndContext();
+    int* vol = &Asteroids::Audio::volume;
     Asteroids::Menu menu(
         {
-            { "New Game", [window]() { Game(window); } },
-            { "Quit", [window]() { glfwSetWindowShouldClose(window, true); } }
+            { []() { return "New Game"; }, [window, vol]() { Game(window); }, nullptr },
+            { [vol]() { return "Volume " + std::to_string(*vol); }, [vol]() { (*vol) = (*vol) > 0 ? (*vol) - 1 : 0;  }, [vol]() { (*vol) = (*vol) < 10 ? (*vol) + 1 : 10; } },
+            { []() { return "Quit"; }, [window]() { glfwSetWindowShouldClose(window, true); }, nullptr }
         });
     while (!glfwWindowShouldClose(window)) {
         menu.Show(window);
@@ -42,7 +44,7 @@ int main() {
 void Game(GLFWwindow* window) {
     Asteroids::InputState inputState = {};
     glfwSetWindowUserPointer(window, (void*)(&inputState));
-    Asteroids::AsteroidsGame game(10, 1000, 1000);
+    Asteroids::AsteroidsGame game(10, 800, 800);
     Asteroids::GameTimer timer(0.01666667f);
     Asteroids::Shader textShader("./text");
     Asteroids::Texture font("./font.DDS");

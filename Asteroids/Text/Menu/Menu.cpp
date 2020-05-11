@@ -5,7 +5,7 @@
 #include "Audio/WAV/WAV.h"
 
 namespace Asteroids {
-    Menu::Menu(std::vector<std::pair<std::string, std::function<void()>>> options) : options(options) {}
+    Menu::Menu(std::vector<std::tuple<std::function<std::string()>, std::function<void()>, std::function<void()>>> options) : options(options) {}
 
     void Menu::Show(GLFWwindow* window) {
         Asteroids::InputState inputState = {};
@@ -32,9 +32,22 @@ namespace Asteroids {
                     inputState.keys[GLFW_KEY_S] = false;
                     selectSound.Play();
                 }
-                if (inputState.keys[GLFW_KEY_SPACE]) {
-                    options[selection].second();
-                    return;
+                if (std::get<2>(options[selection])) {
+                    if (inputState.keys[GLFW_KEY_A]) {
+                        std::get<1>(options[selection])();
+                        inputState.keys[GLFW_KEY_A] = false;
+                        selectSound.Play();
+                    }
+                    if (inputState.keys[GLFW_KEY_D]) {
+                        std::get<2>(options[selection])();
+                        inputState.keys[GLFW_KEY_D] = false;
+                        selectSound.Play();
+                    }
+                } else {
+                    if (inputState.keys[GLFW_KEY_SPACE]) {
+                        std::get<1>(options[selection])();
+                        return;
+                    }
                 }
             }
             if (glfwWindowShouldClose(window)) { break; }
@@ -44,7 +57,7 @@ namespace Asteroids {
             for (int i = 0; i < options.size(); i++) {
                 float y = 0.05f * (options.size() - 1) - 0.1f * i;
                 Asteroids::DrawString(font, textShader, -0.375f, y, 0.125f,
-                    (selection == i ? "> " : "  ") + options[i].first);
+                    (selection == i ? "> " : "  ") + std::get<0>(options[i])());
             }
             glfwSwapBuffers(window);
         }

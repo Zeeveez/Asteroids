@@ -3,6 +3,7 @@
 namespace Asteroids {
     ALCdevice* Audio::device = nullptr;
     ALCcontext* Audio::context = nullptr;
+    int Audio::volume = 5;
 
     Audio::Audio(WAV wav) {
         if (!device && !context) {
@@ -61,6 +62,7 @@ namespace Asteroids {
     }
 
     void Audio::Play() {
+        alSourcef(source, AL_GAIN, volume/10.0f);
         alSourcePlay(source);
     }
 

@@ -14,6 +14,7 @@ namespace Asteroids {
         ALuint buffer;
 
     public:
+        static int volume;
         static void LoadDeviceAndContext();
         static void UnloadDeviceAndContext();
         Audio(WAV wav);
