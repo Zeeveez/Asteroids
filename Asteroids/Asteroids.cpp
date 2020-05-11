@@ -9,25 +9,24 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 // Other includes
-#include "./AsteroidsGame/AsteroidsGame.h"
-#include "./IO/IO.h"
-#include "./Window/Window.h"
-#include "./Timing/Timing.h"
-#include "./Texture/Texture.h"
-#include "./Text/Text.h"
-#include "./Text/Menu/Menu.h"
-#include "./Audio/Audio.h"
-#include "./Audio/WAV/WAV.h"
+#include "AsteroidsGame/AsteroidsGame.h"
+#include "Engine/IO/IO.h"
+#include "Engine/Window/Window.h"
+#include "Engine/Timing/Timing.h"
+#include "Engine/Texture/Texture.h"
+#include "Engine/Text/Text.h"
+#include "Engine/Text/Menu/Menu.h"
+#include "Engine/Audio/Audio.h"
 #include <string>
 
 void Game(GLFWwindow* window);
 
 int main() {
     glfwInit();
-    GLFWwindow* window = Asteroids::CreateGameWindow(800, 800, "OpenGL", Asteroids::key_callback, Asteroids::mouse_callback, Asteroids::character_callback);
-    Asteroids::Audio::LoadDeviceAndContext();
-    int* vol = &Asteroids::Audio::volume;
-    Asteroids::Menu menu(
+    GLFWwindow* window = Engine::CreateGameWindow(800, 800, "OpenGL", Engine::key_callback, Engine::mouse_callback, Engine::character_callback);
+    Engine::Audio::LoadDeviceAndContext();
+    int* vol = &Engine::Audio::volume;
+    Engine::Menu menu(
         {
             { []() { return "New Game"; }, [window, vol]() { Game(window); }, nullptr },
             { [vol]() { return "Volume " + std::to_string(*vol); }, [vol]() { (*vol) = (*vol) > 0 ? (*vol) - 1 : 0;  }, [vol]() { (*vol) = (*vol) < 10 ? (*vol) + 1 : 10; } },
@@ -37,17 +36,17 @@ int main() {
         menu.Show(window);
     }
     glfwTerminate();
-    Asteroids::Audio::UnloadDeviceAndContext();
+    Engine::Audio::UnloadDeviceAndContext();
     return 0;
 }
 
 void Game(GLFWwindow* window) {
-    Asteroids::InputState inputState = {};
+    Engine::InputState inputState = {};
     glfwSetWindowUserPointer(window, (void*)(&inputState));
     Asteroids::AsteroidsGame game(10, 800, 800);
-    Asteroids::GameTimer timer(0.01666667f);
-    Asteroids::Shader textShader("./text");
-    Asteroids::Texture font("./font.DDS");
+    Engine::GameTimer timer(0.01666667f);
+    Engine::Shader textShader("./text");
+    Engine::Texture font("./font.DDS");
     timer.Start();
     int i = 0;
     while (true) {
@@ -65,7 +64,7 @@ void Game(GLFWwindow* window) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         game.DrawFrame();
-        Asteroids::DrawString(font, textShader, -1.0f, 0.925f, 0.075f, "Score: " + std::to_string(game.GetScore()));
+        Engine::DrawString(font, textShader, -1.0f, 0.925f, 0.075f, "Score: " + std::to_string(game.GetScore()));
         glfwSwapBuffers(window);
     }
 }

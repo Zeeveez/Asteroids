@@ -1,11 +1,10 @@
 #include "AsteroidsGame.h"
-#include "Audio/WAV/WAV.h"
 #include <algorithm>
 
 namespace Asteroids {
     AsteroidsGame::AsteroidsGame(int noAsteroids, float width, float height) : width(width), height(height),
-        explosionSound(Asteroids::Audio(Asteroids::WAV("./Explosion.wav"))),
-        shootSound(Asteroids::Audio(Asteroids::WAV("./Shoot.wav"))) {
+        explosionSound(Engine::Audio("./Explosion.wav")),
+        shootSound(Engine::Audio("./Shoot.wav")) {
         ship = Ship(width / 2, height / 2, 0, 0, 0, 0, &particleSystem);
         ship.Shield(300);
         for (int i = 0; i < noAsteroids; i++) {
@@ -21,7 +20,7 @@ namespace Asteroids {
         }
     }
 
-    void AsteroidsGame::Update(InputState& inputState) {
+    void AsteroidsGame::Update(Engine::InputState& inputState) {
         for (auto& click : (inputState).clicks) {
             particleSystem.Explosion(click.first, height - click.second);
         }
@@ -105,7 +104,7 @@ namespace Asteroids {
         }
     }
 
-    void AsteroidsGame::HandleEvents(InputState& inputState) {
+    void AsteroidsGame::HandleEvents(Engine::InputState& inputState) {
         if (ship.IsAlive()) {
             if (inputState.keys[GLFW_KEY_W]) { ship.Accelerate(0.15f); }
             if (inputState.keys[GLFW_KEY_A]) { ship.Turn(0.1f); }

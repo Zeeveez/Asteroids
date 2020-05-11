@@ -1,36 +1,36 @@
 #ifndef ASTEROIDSGAME_H
 #define ASTEROIDSGAME_H
 
-#include "ParticleSystem/ParticleSystem.h"
-#include "Rectangle/GameObject/Bullet/Bullet.h"
-#include "Rectangle/GameObject/PolyShape/Asteroid/Asteroid.h"
-#include "Rectangle/GameObject/PolyShape/Ship/Ship.h"
-#include "Shader/Shader.h"
-#include "IO/IO.h"
-#include "Audio/Audio.h"
+#include "Engine/ParticleSystem/ParticleSystem.h"
+#include "Bullet/Bullet.h"
+#include "Asteroid/Asteroid.h"
+#include "Ship/Ship.h"
+#include "Engine/Shader/Shader.h"
+#include "Engine/IO/IO.h"
+#include "Engine/Audio/Audio.h"
 #include <vector>
 
 namespace Asteroids {
     class AsteroidsGame {
     private:
-        Asteroids::Audio shootSound;
-        Asteroids::Audio explosionSound;
+        Engine::Audio shootSound;
+        Engine::Audio explosionSound;
         float width;
         float height;
         int score = 0;
         std::vector<Bullet> bullets = {};
         std::vector<Asteroid> asteroids = {};
-        std::vector<Particle> particles = {};
+        std::vector<Engine::Particle> particles = {};
         int lives = 3;
         Ship ship;
-        Shader shader = Shader("./default");
-        ParticleSystem particleSystem = ParticleSystem();;
+        Engine::Shader shader = Engine::Shader("./default");
+        Engine::ParticleSystem particleSystem = Engine::ParticleSystem();;
 
     public:
         AsteroidsGame(int noAsteroids, float width, float height);
-        void Update(InputState& inputState);
+        void Update(Engine::InputState& inputState);
         void DrawFrame();
-        void HandleEvents(InputState& inputState);
+        void HandleEvents(Engine::InputState& inputState);
         int GetScore();
     };
 }
