@@ -25,13 +25,14 @@ int main() {
     glfwInit();
     GLFWwindow* window = Engine::CreateGameWindow(800, 800, "OpenGL", Engine::key_callback, Engine::mouse_callback, Engine::character_callback);
     Engine::Audio::LoadDeviceAndContext();
-    int* vol = &Engine::Audio::volume;
     Engine::Menu menu(
         {
-            { []() { return "New Game"; }, [window, vol]() { Game(window); }, nullptr },
-            { [vol]() { return "Volume " + std::to_string(*vol); }, [vol]() { (*vol) = (*vol) > 0 ? (*vol) - 1 : 0;  }, [vol]() { (*vol) = (*vol) < 10 ? (*vol) + 1 : 10; } },
-            { []() { return "Quit"; }, [window]() { glfwSetWindowShouldClose(window, true); }, nullptr }
-        });
+            { "New Game", [window]() { Game(window); } },
+            { "Options", Engine::Menu({
+                { "Volume", &Engine::Audio::volume }
+            }, true)},
+            { "Quit", [window]() { glfwSetWindowShouldClose(window, true); } }
+        }, false);
     while (!glfwWindowShouldClose(window)) {
         menu.Show(window);
     }
@@ -42,6 +43,7 @@ int main() {
 
 void Game(GLFWwindow* window) {
     Engine::InputState inputState = {};
+    void* oldInputState = glfwGetWindowUserPointer(window);
     glfwSetWindowUserPointer(window, (void*)(&inputState));
     Asteroids::AsteroidsGame game(10, 800, 800);
     Engine::GameTimer timer(0.01666667f);
@@ -57,6 +59,7 @@ void Game(GLFWwindow* window) {
             game.Update(inputState);
         }
         if (glfwWindowShouldClose(window)) {
+            glfwSetWindowUserPointer(window, oldInputState);
             glfwSetWindowShouldClose(window, false);
             break;
         }

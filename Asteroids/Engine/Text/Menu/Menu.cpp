@@ -4,10 +4,15 @@
 #include "Engine/Audio/Audio.h"
 
 namespace Engine {
-    Menu::Menu(std::vector<std::tuple<std::function<std::string()>, std::function<void()>, std::function<void()>>> options) : options(options) {}
+    Menu::Menu(std::vector<Option> options, bool subMenu) : options(options) {
+        if (subMenu) {
+            this->options.push_back({ "Back", nullptr });
+        }
+    }
 
     void Menu::Show(GLFWwindow* window) {
         InputState inputState = {};
+        void* oldInputState = glfwGetWindowUserPointer(window);
         glfwSetWindowUserPointer(window, (void*)(&inputState));
         GameTimer timer(0.01666667f);
         Shader textShader("./text");
@@ -31,32 +36,45 @@ namespace Engine {
                     inputState.keys[GLFW_KEY_S] = false;
                     selectSound.Play();
                 }
-                if (std::get<2>(options[selection])) {
-                    if (inputState.keys[GLFW_KEY_A]) {
-                        std::get<1>(options[selection])();
-                        inputState.keys[GLFW_KEY_A] = false;
-                        selectSound.Play();
-                    }
-                    if (inputState.keys[GLFW_KEY_D]) {
-                        std::get<2>(options[selection])();
-                        inputState.keys[GLFW_KEY_D] = false;
-                        selectSound.Play();
-                    }
+                if (inputState.keys[GLFW_KEY_SPACE] && std::get<0>(options[selection]) == "Back") {
+                    glfwSetWindowUserPointer(window, oldInputState);
+                    return;
                 } else {
-                    if (inputState.keys[GLFW_KEY_SPACE]) {
-                        std::get<1>(options[selection])();
-                        return;
+                    if (std::holds_alternative<int*>(std::get<1>(options[selection]))) {
+                        int* var = std::get<int*>(std::get<1>(options[selection]));
+                        if (inputState.keys[GLFW_KEY_A]) {
+                            (*var)--;
+                            inputState.keys[GLFW_KEY_A] = false;
+                            selectSound.Play();
+                        }
+                        if (inputState.keys[GLFW_KEY_D]) {
+                            (*var)++;
+                            inputState.keys[GLFW_KEY_D] = false;
+                            selectSound.Play();
+                        }
+                    } else {
+                        if (inputState.keys[GLFW_KEY_SPACE]) {
+                            inputState.keys[GLFW_KEY_SPACE] = false;
+                            if (std::holds_alternative<Menu>(std::get<1>(options[selection]))) {
+                                std::get<Menu>(std::get<1>(options[selection])).Show(window);
+                            } else {
+                                std::get<std::function<void()>>(std::get<1>(options[selection]))();
+                            }
+                        }
                     }
                 }
+                if (glfwWindowShouldClose(window)) {
+                    glfwSetWindowUserPointer(window, oldInputState);
+                    return;
+                }
             }
-            if (glfwWindowShouldClose(window)) { break; }
 
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             for (int i = 0; i < options.size(); i++) {
                 float y = 0.05f * (options.size() - 1) - 0.1f * i;
                 DrawString(font, textShader, -0.375f, y, 0.125f,
-                    (selection == i ? "> " : "  ") + std::get<0>(options[i])());
+                    (selection == i ? "> " : "  ") + std::get<0>(options[i]));
             }
             glfwSwapBuffers(window);
         }

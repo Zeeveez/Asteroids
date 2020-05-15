@@ -6,15 +6,19 @@
 #include <vector>
 #include <functional>
 #include <tuple>
+#include <variant>
 
 namespace Engine {
+    class Menu;
+
+    typedef std::tuple<std::string, std::variant<int*, std::function<void()>, Menu>> Option;
     class Menu {
     public:
-        Menu(std::vector<std::tuple<std::function<std::string()>, std::function<void()>, std::function<void()>>> options);
+        Menu(std::vector<Option> options, bool subMenu);
         void Show(GLFWwindow* window);
 
     private:
-        std::vector<std::tuple<std::function<std::string()>, std::function<void()>, std::function<void()>>> options;
+        std::vector<Option> options;
     };
 }
 
