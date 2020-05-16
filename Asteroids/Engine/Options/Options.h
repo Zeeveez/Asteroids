@@ -17,6 +17,7 @@ namespace Engine {
         static int volume;
 
         static Menu GetOptionsMenu();
+        static void ChangeResolution(bool increase);
     };
 }
 #endif
