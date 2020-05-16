@@ -17,20 +17,19 @@
 #include "Engine/Text/Text.h"
 #include "Engine/Text/Menu/Menu.h"
 #include "Engine/Audio/Audio.h"
+#include "Engine/Options/Options.h"
 #include <string>
 
 void Game(GLFWwindow* window);
 
 int main() {
     glfwInit();
-    GLFWwindow* window = Engine::CreateGameWindow(800, 800, "OpenGL", Engine::key_callback, Engine::mouse_callback, Engine::character_callback);
     Engine::Audio::LoadDeviceAndContext();
+    GLFWwindow* window = Engine::CreateGameWindow(Engine::Options::screenSize.first, Engine::Options::screenSize.second, "OpenGL", Engine::key_callback, Engine::mouse_callback, Engine::character_callback);
     Engine::Menu menu(
         {
             { "New Game", [window]() { Game(window); } },
-            { "Options", Engine::Menu({
-                { "Volume", &Engine::Audio::volume }
-            }, true)},
+            { "Options", Engine::Options::GetOptionsMenu()},
             { "Quit", [window]() { glfwSetWindowShouldClose(window, true); } }
         }, false);
     while (!glfwWindowShouldClose(window)) {
@@ -45,7 +44,7 @@ void Game(GLFWwindow* window) {
     Engine::InputState inputState = {};
     void* oldInputState = glfwGetWindowUserPointer(window);
     glfwSetWindowUserPointer(window, (void*)(&inputState));
-    Asteroids::AsteroidsGame game(10, 800, 800);
+    Asteroids::AsteroidsGame game(10, Engine::Options::screenSize.first, Engine::Options::screenSize.second);
     Engine::GameTimer timer(0.01666667f);
     Engine::Shader textShader("./text");
     Engine::Texture font("./font.DDS");

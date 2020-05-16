@@ -11,14 +11,14 @@
 namespace Engine {
     class Menu;
 
-    typedef std::tuple<std::string, std::variant<int*, std::function<void()>, Menu>> Option;
+    typedef std::tuple<std::string, std::variant<std::monostate, int*, std::function<void()>, Menu>> MenuItem;
     class Menu {
     public:
-        Menu(std::vector<Option> options, bool subMenu);
+        Menu(std::vector<MenuItem> options, bool subMenu);
         void Show(GLFWwindow* window);
 
     private:
-        std::vector<Option> options;
+        std::vector<MenuItem> options;
     };
 }
 

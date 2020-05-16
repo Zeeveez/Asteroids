@@ -1,9 +1,9 @@
 #include "Audio.h"
+#include "Engine/Options/Options.h"
 
 namespace Engine {
     ALCdevice* Audio::device = nullptr;
     ALCcontext* Audio::context = nullptr;
-    int Audio::volume = 5;
 
     Audio::Audio(const char* file) {
         if (!device && !context) {
@@ -63,7 +63,7 @@ namespace Engine {
     }
 
     void Audio::Play() {
-        alSourcef(source, AL_GAIN, volume/10.0f);
+        alSourcef(source, AL_GAIN, Options::volume/10.0f);
         alSourcePlay(source);
     }
 

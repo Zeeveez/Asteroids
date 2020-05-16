@@ -14,7 +14,6 @@ namespace Engine {
         ALuint buffer;
 
     public:
-        static int volume;
         static void LoadDeviceAndContext();
         static void UnloadDeviceAndContext();
         Audio(const char* file);

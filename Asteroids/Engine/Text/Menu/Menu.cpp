@@ -4,9 +4,9 @@
 #include "Engine/Audio/Audio.h"
 
 namespace Engine {
-    Menu::Menu(std::vector<Option> options, bool subMenu) : options(options) {
+    Menu::Menu(std::vector<MenuItem> options, bool subMenu) : options(options) {
         if (subMenu) {
-            this->options.push_back({ "Back", nullptr });
+            this->options.push_back({ "Back", std::monostate() });
         }
     }
 
