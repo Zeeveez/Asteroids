@@ -11,13 +11,14 @@ namespace Engine {
 
     private:
         static std::vector<ScreenSize> screenSizes;
+        static int screenSizeIndex;
 
     public:
         static ScreenSize screenSize;
         static int volume;
 
         static Menu GetOptionsMenu();
-        static void ChangeResolution(bool increase);
+        static void ChangeResolution(int change);
     };
 }
 #endif

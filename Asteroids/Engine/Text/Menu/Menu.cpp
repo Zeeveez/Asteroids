@@ -36,7 +36,7 @@ namespace Engine {
                     inputState.keys[GLFW_KEY_S] = false;
                     selectSound.Play();
                 }
-                if (inputState.keys[GLFW_KEY_SPACE] && std::get<0>(options[selection]) == "Back") {
+                if (inputState.keys[GLFW_KEY_SPACE] && std::holds_alternative<std::monostate>(std::get<1>(options[selection]))) {
                     glfwSetWindowUserPointer(window, oldInputState);
                     return;
                 } else {

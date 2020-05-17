@@ -14,7 +14,7 @@ namespace Engine {
 		double ydelta;
 		char lastText;
 		std::map<int, bool> keys;
-		std::vector<std::pair<double,double>> clicks;
+		std::vector<std::pair<float,float>> clicks;
 		void CheckMouseMovement(GLFWwindow* window) {
 			pxpos = xpos;
 			pypos = ypos;

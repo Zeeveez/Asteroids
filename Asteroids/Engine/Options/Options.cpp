@@ -25,36 +25,28 @@ namespace Engine {
             { 3840, 2160 },
     };
 
-    int screenSizeIndex = 12;
+    int Options::screenSizeIndex = 12;
     Options::ScreenSize Options::screenSize = screenSizes[screenSizeIndex];
     int Options::volume = 5;
 
     Menu Options::GetOptionsMenu() {
         std::vector<Engine::MenuItem> menuItems = {};
         menuItems.push_back({ "Volume", &volume });
-        menuItems.push_back({ "Increase Res", []() {ChangeResolution(true); } });
-        menuItems.push_back({ "Decrease Res", []() {ChangeResolution(false); } });
+        menuItems.push_back({ "Increase Res", []() {ChangeResolution(1); } });
+        menuItems.push_back({ "Decrease Res", []() {ChangeResolution(-1); } });
         return Engine::Menu(menuItems, true);
     }
 
-    void Options::ChangeResolution(bool increase) {
-        GLFWwindow* window = glfwGetCurrentContext();
-        if (increase) {
+    void Options::ChangeResolution(int change) {
+        screenSizeIndex += change;
+        if (screenSizeIndex < 0) {
             screenSizeIndex++;
-            if (screenSizeIndex >= screenSizes.size()) {
-                screenSizeIndex--;
-            }
-            screenSize = screenSizes[screenSizeIndex];
-            glfwSetWindowSize(window, screenSize.first, screenSize.second);
-            glViewport(0, 0, screenSize.first, screenSize.second);
-        } else {
-            screenSizeIndex--;
-            if (screenSizeIndex < 0) {
-                screenSizeIndex++;
-            }
-            screenSize = screenSizes[screenSizeIndex];
-            glfwSetWindowSize(window, screenSize.first, screenSize.second);
-            glViewport(0, 0, screenSize.first, screenSize.second);
         }
+        if (screenSizeIndex >= screenSizes.size()) {
+            screenSizeIndex--;
+        }
+        screenSize = screenSizes[screenSizeIndex];
+        glfwSetWindowSize(glfwGetCurrentContext(), screenSize.first, screenSize.second);
+        glViewport(0, 0, screenSize.first, screenSize.second);
     }
 }

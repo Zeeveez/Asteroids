@@ -58,13 +58,13 @@ namespace Engine {
         data.reserve(samples);
         if (bitsPerSample == 8) {
             char dat;
-            for (int i = 0; i < samples; i++) {
+            for (uint32_t i = 0; i < samples; i++) {
                 f.read(reinterpret_cast<char*>(&dat), sizeof(char));
                 data.push_back(dat);
             }
         } else if (bitsPerSample == 16) {
             int16_t dat;
-            for (int i = 0; i < samples; i++) {
+            for (uint32_t i = 0; i < samples; i++) {
                 f.read(reinterpret_cast<char*>(&dat), sizeof(int16_t));
                 data.push_back(dat);
             }
