@@ -62,7 +62,9 @@ namespace Asteroids {
                         newAsteroids.push_back(addasteroid);
                     }
                     if ((float)rand() / RAND_MAX < UPGRADE_CHANCE) {
-                        upgrades.push_back(Upgrade(100, 100, 0, 0, 0, 0, 100));
+                        auto pos = asteroid.GetPos();
+                        auto vel = asteroid.GetVel();
+                        upgrades.push_back(Upgrade(pos.first, pos.second, 0, vel.first * 2, vel.second*2, 0.075f, 20));
                     }
                 }
             }

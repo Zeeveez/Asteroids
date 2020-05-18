@@ -37,4 +37,10 @@ namespace Asteroids {
         particleSystem->Explosion(x, y);
         return asteroids;
     }
+    std::pair<float, float> Asteroid::GetPos() {
+        return { x, y };
+    }
+    std::pair<float, float> Asteroid::GetVel() {
+        return { dx, dy };
+    }
 }

@@ -13,6 +13,8 @@ namespace Asteroids {
     public:
         Asteroid(float x, float y, float angle, float dx, float dy, float dAngle, float size, Engine::ParticleSystem* particleSystem);
         std::vector<Asteroid> Explode();
+        std::pair<float, float> GetPos();
+        std::pair<float, float> GetVel();
         Asteroid(const Asteroid&) = default;
         Asteroid& operator=(const Asteroid&) = default;
     };
