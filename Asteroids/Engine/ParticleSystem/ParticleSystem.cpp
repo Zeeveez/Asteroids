@@ -203,6 +203,7 @@ namespace Engine {
     }
 
     void ParticleSystem::Render(float width, float height) {
+        //TODO: Update to not use full screen quad to render particles
         GLfloat g_vertex_buffer_data[] = {
              -1.0f, -1.0f,
              1.0f, -1.0f,

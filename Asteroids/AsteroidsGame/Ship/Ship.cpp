@@ -78,6 +78,10 @@ namespace Asteroids {
             bullets.push_back(Bullet(x, y, dx + power * std::sin(angle - 0.2f), dy + power * -std::cos(angle - 0.2f)));
             bullets.push_back(Bullet(x, y, dx + power * std::sin(angle + 0.2f), dy + power * -std::cos(angle + 0.2f)));
         }
+        if (upgradeLevel > 1) {
+            bullets.push_back(Bullet(x, y, dx + power * std::sin(angle - 0.1f), dy + power * -std::cos(angle - 0.1f)));
+            bullets.push_back(Bullet(x, y, dx + power * std::sin(angle + 0.1f), dy + power * -std::cos(angle + 0.1f)));
+        }
         return bullets;
     }
 }
