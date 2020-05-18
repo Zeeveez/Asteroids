@@ -13,7 +13,7 @@ namespace Asteroids {
         }
     }
 
-    void Bullet::Draw(Engine::Shader& shader, float width, float height) {
+    void Bullet::Draw(Engine::Shader& shader, float width, float height, float r, float g, float b) {
         GLfloat g_vertex_buffer_data[] = {
              (x - 1) / (width / 2) - 1.0f, (y - 1) / (height / 2) - 1.0f,
              (x + 1) / (width / 2) - 1.0f, (y - 1) / (height / 2) - 1.0f,
@@ -23,7 +23,7 @@ namespace Asteroids {
 
         // This will identify our vertex buffer
         shader.Bind();
-        glUniform3f(glGetUniformLocation(shader.program, "col"), 1.0f, 1.0f, 1.0f);
+        glUniform3f(glGetUniformLocation(shader.program, "col"), r, g, b);
         GLuint vertexbuffer;
         // Generate 1 buffer, put the resulting identifier in vertexbuffer
         glGenBuffers(1, &vertexbuffer);

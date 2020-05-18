@@ -12,16 +12,18 @@ namespace Asteroids {
         Engine::ParticleSystem* particleSystem;
         int fullShield = 0;
         int shield = 0;
+        int upgradeLevel = 0;
     public:
         Ship() = default;
         Ship(float x, float y, float angle, float dx, float dy, float dAngle, Engine::ParticleSystem* particleSystem);
         void Shield(int duration);
         int Ship::Shield();
         void Explode();
+        void Upgrade();
         void Accelerate(float power);
         void Update(float maxX, float maxY, bool wrap = true);
         void Draw(Engine::Shader& shader, float width, float height);
-        Bullet Fire(float power);
+        std::vector<Bullet> Fire(float power);
     };
 }
 

@@ -21,6 +21,8 @@ namespace Asteroids {
     }
 
     void AsteroidsGame::Update(Engine::InputState& inputState) {
+        const float UPGRADE_CHANCE = 0.05f;
+
         for (auto& click : (inputState).clicks) {
             particleSystem.Explosion(click.first, height - click.second);
         }
@@ -29,15 +31,23 @@ namespace Asteroids {
         for (auto& bullet : bullets) {
             bullet.Update(width, height);
         }
-        particleSystem.Update(width, height);
         bullets.erase(std::remove_if(
             bullets.begin(), bullets.end(),
             [](Bullet& bullet) {
                 return !bullet.IsAlive();
             }), bullets.end());
+        particleSystem.Update(width, height);
         for (auto& asteroid : asteroids) {
             asteroid.Update(width, height);
         }
+        for (auto& upgrade : upgrades) {
+            upgrade.Update(width, height, false);
+        }
+        upgrades.erase(std::remove_if(
+            upgrades.begin(), upgrades.end(),
+            [](Upgrade& upgrade) {
+                return !upgrade.IsAlive();
+            }), upgrades.end());
 
         std::vector<Asteroid> newAsteroids = {};
         for (auto& asteroid : asteroids) {
@@ -50,6 +60,9 @@ namespace Asteroids {
                     bullet.Kill();
                     for (auto& addasteroid : asteroid.Explode()) {
                         newAsteroids.push_back(addasteroid);
+                    }
+                    if ((float)rand() / RAND_MAX < UPGRADE_CHANCE) {
+                        upgrades.push_back(Upgrade(100, 100, 0, 0, 0, 0, 100));
                     }
                 }
             }
@@ -75,6 +88,13 @@ namespace Asteroids {
                 newAsteroids.push_back(asteroid);
             }
         }
+        for (auto& upgrade : upgrades) {
+            if (ship.IsAlive() && ship.GetBounds().Intersects(upgrade.GetBounds())) {
+                score += 500;
+                ship.Upgrade();
+                upgrade.Kill();
+            }
+        }
         asteroids.clear();
         for (auto& asteroid : newAsteroids) {
             asteroids.push_back(asteroid);
@@ -95,6 +115,11 @@ namespace Asteroids {
                 asteroid.Draw(shader, width, height);
             }
         }
+        for (auto& upgrade : upgrades) {
+            if (upgrade.IsAlive()) {
+                upgrade.Draw(shader, width, height, 1.0f, 1.0f, 0.0f);
+            }
+        }
         if (ship.IsAlive()) {
             ship.Draw(shader, width, height);
         }
@@ -111,7 +136,8 @@ namespace Asteroids {
             if (inputState.keys[GLFW_KEY_D]) { ship.Turn(-0.1f); }
             if (inputState.keys[GLFW_KEY_SPACE]) {
                 inputState.keys[GLFW_KEY_SPACE] = false;
-                bullets.push_back(ship.Fire(4));
+                std::vector<Bullet> newBullets = ship.Fire(4);
+                bullets.insert(bullets.end(), newBullets.begin(), newBullets.end());
                 shootSound.Play();
             }
         }

@@ -16,7 +16,7 @@ namespace Engine {
     public:
         PolyShape() = default;
         PolyShape(float x, float y, float angle, float dx, float dy, float dAngle, float size, std::vector<std::pair<float, float>> points);
-        void Draw(Shader& shader, float width, float height) override;
+        void Draw(Shader& shader, float width, float height, float r = 1.0f, float g = 1.0f, float b = 1.0f) override;
         void Update(float maxX, float maxY, bool wrap = true) override;
         Rectangle GetBounds() override;
         void Turn(float delta);

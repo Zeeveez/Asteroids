@@ -18,7 +18,7 @@ namespace Engine {
         GameObject(float x, float y, float dx, float dy, bool alive);
 
     public:
-        virtual void Draw(Shader& shader, float width, float height) = 0;
+        virtual void Draw(Shader& shader, float width, float height, float r, float g, float b) = 0;
         virtual void Update(float maxX, float maxY, bool wrap = false) = 0;
         virtual Rectangle GetBounds() = 0;
         bool IsAlive();

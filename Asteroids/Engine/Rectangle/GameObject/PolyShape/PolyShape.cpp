@@ -6,7 +6,7 @@ namespace Engine {
     PolyShape::PolyShape(float x, float y, float angle, float dx, float dy, float dAngle, float size, std::vector<std::pair<float, float>> points)
         : GameObject(x, y, dx, dy, true), angle(angle), dAngle(dAngle), size(size), points(points) {}
 
-    void PolyShape::Draw(Shader& shader, float width, float height) {
+    void PolyShape::Draw(Shader& shader, float width, float height, float r, float g, float b) {
         std::vector<glm::vec2> drawPoints = {};
         for (auto& point : points) {
             float pointX = point.first * std::cos(angle) - point.second * std::sin(angle);
@@ -31,7 +31,7 @@ namespace Engine {
         );
 
         shader.Bind();
-        glUniform3f(glGetUniformLocation(shader.program, "col"), 1.0f, 1.0f, 1.0f);
+        glUniform3f(glGetUniformLocation(shader.program, "col"), r, g, b);
         glDrawArrays(GL_LINE_LOOP, 0, (GLsizei)drawPoints.size());
         glDisableVertexAttribArray(0);
 
@@ -48,6 +48,11 @@ namespace Engine {
             if (x < -size) { x += maxX + size; }
             if (y > maxY + size) { y -= maxY + size * 2; }
             if (y < -size) { y += maxY + size * 2; }
+        } else {
+            if (x > maxX + size) { alive=false; }
+            if (x < -size) { alive = false; }
+            if (y > maxY + size) { alive = false; }
+            if (y < -size) { alive = false; }
         }
     }
 

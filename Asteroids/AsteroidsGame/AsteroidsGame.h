@@ -5,6 +5,7 @@
 #include "Bullet/Bullet.h"
 #include "Asteroid/Asteroid.h"
 #include "Ship/Ship.h"
+#include "Upgrade/Upgrade.h"
 #include "Engine/Shader/Shader.h"
 #include "Engine/IO/IO.h"
 #include "Engine/Audio/Audio.h"
@@ -20,6 +21,7 @@ namespace Asteroids {
         int score = 0;
         std::vector<Bullet> bullets = {};
         std::vector<Asteroid> asteroids = {};
+        std::vector<Upgrade> upgrades = {};
         std::vector<Engine::Particle> particles = {};
         int lives = 3;
         Ship ship;

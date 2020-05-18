@@ -24,6 +24,10 @@ namespace Asteroids {
         alive = false;
     }
 
+    void Ship::Upgrade() {
+        upgradeLevel++;
+    }
+
     void Ship::Accelerate(float power) {
         dx += power * std::sin(angle);
         dy -= power * std::cos(angle);
@@ -67,7 +71,13 @@ namespace Asteroids {
         glDeleteBuffers(1, &vertexbuffer);
     }
 
-    Bullet Ship::Fire(float power) {
-        return Bullet(x, y, dx + power * std::sin(angle), dy + power * -std::cos(angle));
+    std::vector<Bullet> Ship::Fire(float power) {
+        std::vector<Bullet> bullets = {};
+        bullets.push_back(Bullet(x, y, dx + power * std::sin(angle), dy + power * -std::cos(angle)));
+        if (upgradeLevel > 0) {
+            bullets.push_back(Bullet(x, y, dx + power * std::sin(angle - 0.2f), dy + power * -std::cos(angle - 0.2f)));
+            bullets.push_back(Bullet(x, y, dx + power * std::sin(angle + 0.2f), dy + power * -std::cos(angle + 0.2f)));
+        }
+        return bullets;
     }
 }
