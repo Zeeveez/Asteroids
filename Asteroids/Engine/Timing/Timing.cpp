@@ -1,5 +1,7 @@
 #include "Timing.h"
 
+#include <GLFW/glfw3.h>
+
 namespace Engine {
     GameTimer::GameTimer(double framerate) {
         dt = framerate;
