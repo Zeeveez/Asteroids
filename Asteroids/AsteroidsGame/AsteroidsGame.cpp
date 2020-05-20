@@ -23,11 +23,6 @@ namespace Asteroids {
     void AsteroidsGame::Update(Engine::InputState& inputState) {
         const float UPGRADE_CHANCE = 0.05f;
 
-        for (auto& click : (inputState).clicks) {
-            particleSystem.Explosion(click.first, height - click.second);
-        }
-        (inputState).clicks.clear();
-
         for (auto& bullet : bullets) {
             bullet.Update(width, height);
         }
