@@ -47,7 +47,7 @@ void Game(GLFWwindow* window) {
     Asteroids::AsteroidsGame game(10, Engine::Options::screenSize.first, Engine::Options::screenSize.second);
     Engine::GameTimer timer(0.01666667f);
     Engine::Shader textShader("./text");
-    Engine::Texture font("./font.DDS");
+    Engine::Texture font("./font.dds");
     timer.Start();
     int i = 0;
     while (true) {

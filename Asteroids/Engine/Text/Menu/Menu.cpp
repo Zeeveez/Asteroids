@@ -16,7 +16,7 @@ namespace Engine {
         glfwSetWindowUserPointer(window, (void*)(&inputState));
         GameTimer timer(0.01666667f);
         Shader textShader("./text");
-        Texture font("./font.DDS");
+        Texture font("./font.dds");
         Audio selectSound("./MenuSelect.wav");
 
         int selection = 0;
