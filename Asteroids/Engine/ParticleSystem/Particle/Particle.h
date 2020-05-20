@@ -23,7 +23,7 @@ namespace Engine {
 
     public:
         Particle(float x, float y, float dx, float dy, int age, int maxAge, double size, ParticleFunc colorFunc);
-        bool Particle::IsAlive();
+        bool IsAlive();
         void Update(float maxX, float maxY, bool wrap = false);
         void Draw(Shader& shader, float width, float height);
     };

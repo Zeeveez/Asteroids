@@ -17,7 +17,7 @@ namespace Asteroids {
         Ship() = default;
         Ship(float x, float y, float angle, float dx, float dy, float dAngle, Engine::ParticleSystem* particleSystem);
         void Shield(int duration);
-        int Ship::Shield();
+        int Shield();
         void Explode();
         void Upgrade();
         void Accelerate(float power);
