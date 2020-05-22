@@ -5,6 +5,7 @@
 #include "Engine/Texture/Texture.h"
 
 namespace Engine {
+    // TODO: Add Text Anchoring
     void DrawString(Texture& texture, Shader& shader, float x, float y, int size, std::string str);
     void DrawCharacter(Texture& texture, Shader& shader, float x, float y, float w, float h, char c);
 }

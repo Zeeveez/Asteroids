@@ -71,6 +71,8 @@ namespace Engine {
 
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+            // TODO: Update to have pixel sized gaps instead of float for consistency on different res
             for (int i = 0; i < options.size(); i++) {
                 float y = 0.05f * (options.size() - 1) - 0.15f * i;
                 DrawString(font, textShader, -0.375f, y, 32,
