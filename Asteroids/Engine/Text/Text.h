@@ -5,8 +5,8 @@
 #include "Engine/Texture/Texture.h"
 
 namespace Engine {
-    void DrawString(Texture& texture, Shader& shader, float x, float y, float size, std::string str);
-    void DrawCharacter(Texture& texture, Shader& shader, float x, float y, float size, char c);
+    void DrawString(Texture& texture, Shader& shader, float x, float y, int size, std::string str);
+    void DrawCharacter(Texture& texture, Shader& shader, float x, float y, float w, float h, char c);
 }
 
 #endif

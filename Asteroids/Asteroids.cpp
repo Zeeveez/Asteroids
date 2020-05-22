@@ -66,7 +66,7 @@ void Game(GLFWwindow* window) {
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         game.DrawFrame();
-        Engine::DrawString(font, textShader, -1.0f, 0.925f, 0.075f, "Score: " + std::to_string(game.GetScore()));
+        Engine::DrawString(font, textShader, -1.0f, 0.925f, 24, "Score: " + std::to_string(game.GetScore()));
         glfwSwapBuffers(window);
     }
 }

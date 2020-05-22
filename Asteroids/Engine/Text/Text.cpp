@@ -1,19 +1,24 @@
 #include "Text.h"
 
 namespace Engine {
-    void DrawString(Texture& texture, Shader& shader, float x, float y, float size, std::string str) {
+    void DrawString(Texture& texture, Shader& shader, float x, float y, int size, std::string str) {
         int i = 0;
+        int w;
+        int h;
+        glfwGetWindowSize(glfwGetCurrentContext(), &w, &h);
+        float charHeight = size * 2.0f / h;
+        float charWidth = size * 1.0f / w;
         for (const auto& c : str) {
-            DrawCharacter(texture, shader, x + size / 2 * i++, y, size, c);
+            DrawCharacter(texture, shader, x + charWidth * i++, y, charWidth, charHeight, c);
         }
     }
 
-    void DrawCharacter(Texture& texture, Shader& shader, float x, float y, float size, char c) {
+    void DrawCharacter(Texture& texture, Shader& shader, float x, float y, float w, float h, char c) {
         GLfloat g_vertex_buffer_data[] = {
              x, y,
-             x + size / 2, y,
-             x,  y + size,
-             x + size / 2,  y + size
+             x + w, y,
+             x,  y + h,
+             x + w,  y + h
         };
         float charWidth = 1.0f / 16;
         float charHeight = 1.0f / 8;

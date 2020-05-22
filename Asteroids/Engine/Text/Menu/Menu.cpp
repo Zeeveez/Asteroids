@@ -72,8 +72,8 @@ namespace Engine {
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             for (int i = 0; i < options.size(); i++) {
-                float y = 0.05f * (options.size() - 1) - 0.1f * i;
-                DrawString(font, textShader, -0.375f, y, 0.125f,
+                float y = 0.05f * (options.size() - 1) - 0.15f * i;
+                DrawString(font, textShader, -0.375f, y, 32,
                     (selection == i ? "> " : "  ") + std::get<0>(options[i]));
             }
             glfwSwapBuffers(window);
