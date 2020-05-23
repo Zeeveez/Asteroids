@@ -1,4 +1,5 @@
 #include "AsteroidsGame.h"
+#include "Engine/Options/Options.h"
 #include <algorithm>
 
 namespace Asteroids {
@@ -59,7 +60,7 @@ namespace Asteroids {
                     if ((float)rand() / RAND_MAX < UPGRADE_CHANCE) {
                         auto pos = asteroid.GetPos();
                         auto vel = asteroid.GetVel();
-                        upgrades.push_back(Upgrade(pos.first, pos.second, 0, vel.first * 2, vel.second*2, 0.075f, 20));
+                        upgrades.push_back(Upgrade(pos.first, pos.second, 0, vel.first * 2, vel.second * 2, 0.075f, 20));
                     }
                 }
             }
@@ -118,7 +119,7 @@ namespace Asteroids {
             }
         }
         if (ship.IsAlive()) {
-            ship.Draw(shader, width, height);
+            ship.Draw(shader, width, height, 1 - (ship.Shield() ? (float)ship.Shield() / ship.FullShield() : 0), 1.0f, 1.0f);
         }
         for (int i = 0; i < lives; i++) {
             Ship lifeShip = Ship((i + 1) * 40.0f, 40.0f, 3.1415926535f, 0.0f, 0.0f, 0.0f, &particleSystem);
@@ -136,6 +137,10 @@ namespace Asteroids {
                 std::vector<Bullet> newBullets = ship.Fire(4);
                 bullets.insert(bullets.end(), newBullets.begin(), newBullets.end());
                 shootSound.Play();
+            }
+            if (inputState.keys[GLFW_KEY_B]) {
+                inputState.keys[GLFW_KEY_B] = false;
+                Engine::Options::drawBounds = !Engine::Options::drawBounds;
             }
         }
     }

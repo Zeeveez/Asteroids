@@ -19,4 +19,13 @@ namespace Engine {
         }
         return true;
     }
+
+    std::vector<std::pair<float, float>> Rectangle::GetPoints() {
+        return {
+            { -1.0f, -1.0f },
+            { 1.0f, -1.0f },
+            { 1.0f, 0.0f },
+            { -1.0f, 1.0f }
+        };
+    }
 }

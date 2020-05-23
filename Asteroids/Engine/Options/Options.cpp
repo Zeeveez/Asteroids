@@ -28,6 +28,7 @@ namespace Engine {
     int Options::screenSizeIndex = 12;
     Options::ScreenSize Options::screenSize = screenSizes[screenSizeIndex];
     int Options::volume = 5;
+    bool Options::drawBounds = false;
 
     Menu Options::GetOptionsMenu() {
         std::vector<Engine::MenuItem> menuItems = {};

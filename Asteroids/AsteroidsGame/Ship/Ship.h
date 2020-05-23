@@ -18,11 +18,11 @@ namespace Asteroids {
         Ship(float x, float y, float angle, float dx, float dy, float dAngle, Engine::ParticleSystem* particleSystem);
         void Shield(int duration);
         int Shield();
+        int FullShield();
         void Explode();
         void Upgrade();
         void Accelerate(float power);
         void Update(float maxX, float maxY, bool wrap = true);
-        void Draw(Engine::Shader& shader, float width, float height);
         std::vector<Bullet> Fire(float power);
     };
 }

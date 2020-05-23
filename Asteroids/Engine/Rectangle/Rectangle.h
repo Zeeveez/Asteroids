@@ -1,6 +1,8 @@
 #ifndef RECTANGLE_H
 #define RECTANGLE_H
 
+#include <vector>
+
 namespace Engine {
     class Rectangle {
     private:
@@ -12,6 +14,7 @@ namespace Engine {
     public:
         Rectangle(float x, float y, float width, float height);
         bool Intersects(Rectangle otherRect);
+        std::vector<std::pair<float, float>> GetPoints();
     };
 }
 

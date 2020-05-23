@@ -20,6 +20,10 @@ namespace Asteroids {
         return shield;
     }
 
+    int Ship::FullShield() {
+        return fullShield;
+    }
+
     void Ship::Explode() {
         alive = false;
     }
@@ -37,38 +41,6 @@ namespace Asteroids {
     void Ship::Update(float maxX, float maxY, bool wrap) {
         if (shield) { shield--; }
         PolyShape::Update(maxX, maxY, wrap);
-    }
-
-    void Ship::Draw(Engine::Shader& shader, float width, float height) {
-        std::vector<glm::vec2> drawPoints = {};
-        for (auto& point : points) {
-            float pointX = point.first * std::cos(angle) - point.second * std::sin(angle);
-            float pointY = point.first * std::sin(angle) + point.second * std::cos(angle);
-            drawPoints.push_back(glm::vec2((x + pointX * size) / (width / 2) - 1.0f, (y + pointY * size) / (height / 2) - 1.0f));
-        }
-
-        GLuint vertexbuffer;
-        glGenBuffers(1, &vertexbuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(drawPoints.size() * sizeof(glm::vec2)), &drawPoints[0], GL_STATIC_DRAW);
-
-        glEnableVertexAttribArray(0);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glVertexAttribPointer(
-            0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-            2,                  // size
-            GL_FLOAT,           // type
-            GL_FALSE,           // normalized?
-            0,                  // stride
-            (void*)0            // array buffer offset
-        );
-
-        shader.Bind();
-        glUniform3f(glGetUniformLocation(shader.program, "col"), 1 - (shield ? (float)shield / fullShield : 0), 1.0f, 1.0f);
-        glDrawArrays(GL_LINE_LOOP, 0, (GLsizei)drawPoints.size());
-        glDisableVertexAttribArray(0);
-
-        glDeleteBuffers(1, &vertexbuffer);
     }
 
     std::vector<Bullet> Ship::Fire(float power) {

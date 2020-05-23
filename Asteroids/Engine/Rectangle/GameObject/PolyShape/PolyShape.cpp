@@ -1,4 +1,5 @@
 #include "PolyShape.h"
+#include "Engine/Options/Options.h" 
 #include <glm/glm.hpp>
 #include <cmath>
 
@@ -36,6 +37,25 @@ namespace Engine {
         glDisableVertexAttribArray(0);
 
         glDeleteBuffers(1, &vertexbuffer);
+
+        if (Engine::Options::drawBounds) {
+            static const float BOUNDS_SCALE = 0.8f;
+            std::vector<glm::vec2> boundsPoints = {};
+            for (auto& point : GetBounds().GetPoints()) {
+                boundsPoints.push_back(glm::vec2((x + BOUNDS_SCALE * point.first * size) / (width / 2) - 1.0f, (y + BOUNDS_SCALE * point.second * size) / (height / 2) - 1.0f));
+            }
+            glGenBuffers(1, &vertexbuffer);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glBufferData(GL_ARRAY_BUFFER, (GLsizeiptr)(boundsPoints.size() * sizeof(glm::vec2)), &boundsPoints[0], GL_STATIC_DRAW);
+            glEnableVertexAttribArray(0);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 0, (void*)0);
+            glUniform3f(glGetUniformLocation(shader.program, "col"), 1.0f, 0.0f, 0.0f);
+            glDrawArrays(GL_LINE_LOOP, 0, (GLsizei)boundsPoints.size());
+            glDisableVertexAttribArray(0);
+
+            glDeleteBuffers(1, &vertexbuffer);
+        }
     }
 
     void PolyShape::Update(float maxX, float maxY, bool wrap) {
@@ -49,7 +69,7 @@ namespace Engine {
             if (y > maxY + size) { y -= maxY + size * 2; }
             if (y < -size) { y += maxY + size * 2; }
         } else {
-            if (x > maxX + size) { alive=false; }
+            if (x > maxX + size) { alive = false; }
             if (x < -size) { alive = false; }
             if (y > maxY + size) { alive = false; }
             if (y < -size) { alive = false; }
