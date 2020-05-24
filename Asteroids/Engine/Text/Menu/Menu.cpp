@@ -75,7 +75,7 @@ namespace Engine {
             // TODO: Update to have pixel sized gaps instead of float for consistency on different res
             for (int i = 0; i < options.size(); i++) {
                 float y = 0.05f * (options.size() - 1) - 0.15f * i;
-                DrawString(font, textShader, -0.375f, y, 32,
+                Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32,
                     (selection == i ? "> " : "  ") + std::get<0>(options[i]));
             }
             glfwSwapBuffers(window);
