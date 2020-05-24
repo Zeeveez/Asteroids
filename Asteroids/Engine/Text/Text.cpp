@@ -9,45 +9,31 @@ namespace Engine {
             glfwGetWindowSize(glfwGetCurrentContext(), &w, &h);
             float charHeight = size * 2.0f / h;
             float charWidth = size * 1.0f / w;
+
+            float yPos = 0;
+            switch (anchor) {
+            case Anchor::TOP_LEFT: case Anchor::TOP_CENTER: case Anchor::TOP_RIGHT:
+                yPos = y - charHeight;
+                break;
+            case Anchor::MIDDLE_LEFT: case Anchor::MIDDLE_CENTER: case Anchor::MIDDLE_RIGHT:
+                yPos = y - charHeight / 2;
+                break;
+            case Anchor::BOTTOM_LEFT: case Anchor::BOTTOM_CENTER: case Anchor::BOTTOM_RIGHT:
+                yPos = y;
+                break;
+            }
+
             for (const auto& c : str) {
                 float xPos = 0;
-                float yPos = 0;
                 switch (anchor) {
-                case Anchor::TOP_LEFT:
+                case Anchor::TOP_LEFT: case Anchor::MIDDLE_LEFT: case Anchor::BOTTOM_LEFT:
                     xPos = x + charWidth * i++;
-                    yPos = y - charHeight;
                     break;
-                case Anchor::TOP_CENTER:
+                case Anchor::TOP_CENTER: case Anchor::MIDDLE_CENTER: case Anchor::BOTTOM_CENTER:
                     xPos = x - ((float)str.length() / 2 - i++) * charWidth;
-                    yPos = y - charHeight;
                     break;
-                case Anchor::TOP_RIGHT:
+                case Anchor::TOP_RIGHT: case Anchor::MIDDLE_RIGHT: case Anchor::BOTTOM_RIGHT:
                     xPos = x - (str.length() - i++) * charWidth;
-                    yPos = y - charHeight;
-                    break;
-                case Anchor::MIDDLE_LEFT:
-                    xPos = x + charWidth * i++;
-                    yPos = y - charHeight / 2;
-                    break;
-                case Anchor::MIDDLE_CENTER:
-                    xPos = x - ((float)str.length() / 2 - i++) * charWidth;
-                    yPos = y - charHeight / 2;
-                    break;
-                case Anchor::MIDDLE_RIGHT:
-                    xPos = x - (str.length() - i++) * charWidth;
-                    yPos = y - charHeight / 2;
-                    break;
-                case Anchor::BOTTOM_LEFT:
-                    xPos = x + charWidth * i++;
-                    yPos = y;
-                    break;
-                case Anchor::BOTTOM_CENTER:
-                    xPos = x - ((float)str.length() / 2 - i++) * charWidth;
-                    yPos = y;
-                    break;
-                case Anchor::BOTTOM_RIGHT:
-                    xPos = x - (str.length() - i++) * charWidth;
-                    yPos = y;
                     break;
                 }
                 DrawCharacter(texture, shader, xPos, yPos, charWidth, charHeight, c);
