@@ -1,42 +1,59 @@
 #include "Text.h"
+#include <sstream>
+#include <vector>
 
 namespace Engine {
     namespace Text {
+        std::vector<std::string> SplitString(std::string str, char delimiter) {
+            std::vector<std::string> out = {};
+            std::stringstream ss(str);
+            std::string s;
+            while (getline(ss, s, delimiter)) {
+                out.push_back(s);
+            }
+            return out;
+        }
+
         void DrawString(Texture& texture, Shader& shader, Anchor anchor, float x, float y, int size, std::string str) {
-            int i = 0;
             int w;
             int h;
             glfwGetWindowSize(glfwGetCurrentContext(), &w, &h);
             float charHeight = size * 2.0f / h;
             float charWidth = size * 1.0f / w;
 
-            float yPos = 0;
-            switch (anchor) {
-            case Anchor::TOP_LEFT: case Anchor::TOP_CENTER: case Anchor::TOP_RIGHT:
-                yPos = y - charHeight;
-                break;
-            case Anchor::MIDDLE_LEFT: case Anchor::MIDDLE_CENTER: case Anchor::MIDDLE_RIGHT:
-                yPos = y - charHeight / 2;
-                break;
-            case Anchor::BOTTOM_LEFT: case Anchor::BOTTOM_CENTER: case Anchor::BOTTOM_RIGHT:
-                yPos = y;
-                break;
-            }
+            std::vector<std::string> strings = SplitString(str, '\n');
 
-            for (const auto& c : str) {
-                float xPos = 0;
+            int yIndex = 0;
+            for (const auto& line : strings) {
+                float yPos = 0;
                 switch (anchor) {
-                case Anchor::TOP_LEFT: case Anchor::MIDDLE_LEFT: case Anchor::BOTTOM_LEFT:
-                    xPos = x + charWidth * i++;
+                case Anchor::TOP_LEFT: case Anchor::TOP_CENTER: case Anchor::TOP_RIGHT:
+                    yPos = y - charHeight * ++yIndex;
                     break;
-                case Anchor::TOP_CENTER: case Anchor::MIDDLE_CENTER: case Anchor::BOTTOM_CENTER:
-                    xPos = x - ((float)str.length() / 2 - i++) * charWidth;
+                case Anchor::MIDDLE_LEFT: case Anchor::MIDDLE_CENTER: case Anchor::MIDDLE_RIGHT:
+                    yPos = y + ((float)strings.size() / 2 - ++yIndex) * charHeight;
                     break;
-                case Anchor::TOP_RIGHT: case Anchor::MIDDLE_RIGHT: case Anchor::BOTTOM_RIGHT:
-                    xPos = x - (str.length() - i++) * charWidth;
+                case Anchor::BOTTOM_LEFT: case Anchor::BOTTOM_CENTER: case Anchor::BOTTOM_RIGHT:
+                    yPos = y + (strings.size() - ++yIndex) * charHeight;
                     break;
                 }
-                DrawCharacter(texture, shader, xPos, yPos, charWidth, charHeight, c);
+
+                int xIndex = 0;
+                for (const auto& c : line) {
+                    float xPos = 0;
+                    switch (anchor) {
+                    case Anchor::TOP_LEFT: case Anchor::MIDDLE_LEFT: case Anchor::BOTTOM_LEFT:
+                        xPos = x + charWidth * xIndex++;
+                        break;
+                    case Anchor::TOP_CENTER: case Anchor::MIDDLE_CENTER: case Anchor::BOTTOM_CENTER:
+                        xPos = x - ((float)line.length() / 2 - xIndex++) * charWidth;
+                        break;
+                    case Anchor::TOP_RIGHT: case Anchor::MIDDLE_RIGHT: case Anchor::BOTTOM_RIGHT:
+                        xPos = x - (line.length() - xIndex++) * charWidth;
+                        break;
+                    }
+                    DrawCharacter(texture, shader, xPos, yPos, charWidth, charHeight, c);
+                }
             }
         }
 
