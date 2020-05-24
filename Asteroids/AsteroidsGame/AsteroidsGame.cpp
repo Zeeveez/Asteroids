@@ -9,6 +9,7 @@ namespace Asteroids {
         ship = Ship(width / 2, height / 2, 0, 0, 0, 0, &particleSystem);
         ship.Shield(300);
         for (int i = 0; i < ((stage + 1) * 5); i++) {
+            // TODO: don't spawn asteroids too close to ship
             asteroids.push_back(Asteroid(
                 fmodf((float)rand(), width),
                 fmodf((float)rand(), height),
