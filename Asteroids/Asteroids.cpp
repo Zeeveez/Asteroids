@@ -44,7 +44,7 @@ void Game(GLFWwindow* window) {
     Engine::InputState inputState = {};
     void* oldInputState = glfwGetWindowUserPointer(window);
     glfwSetWindowUserPointer(window, (void*)(&inputState));
-    Asteroids::AsteroidsGame game(10, Engine::Options::screenSize.first, Engine::Options::screenSize.second);
+    Asteroids::AsteroidsGame game(Engine::Options::screenSize.first, Engine::Options::screenSize.second);
     Engine::GameTimer timer(0.01666667f);
     Engine::Shader textShader("./text");
     Engine::Texture font("./font.dds");
@@ -67,6 +67,7 @@ void Game(GLFWwindow* window) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         game.DrawFrame();
         Engine::Text::DrawString(font, textShader, Engine::Text::Anchor::TOP_LEFT, -1.0f, 1.0f, 24, "Score: " + std::to_string(game.GetScore()));
+        Engine::Text::DrawString(font, textShader, Engine::Text::Anchor::TOP_RIGHT, 1.0f, 1.0f, 24, "Stage: " + std::to_string(game.GetStage()));
         glfwSwapBuffers(window);
     }
 }

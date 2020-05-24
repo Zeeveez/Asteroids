@@ -19,6 +19,7 @@ namespace Asteroids {
         float width;
         float height;
         int score = 0;
+        int stage = 1;
         std::vector<Bullet> bullets = {};
         std::vector<Asteroid> asteroids = {};
         std::vector<Upgrade> upgrades = {};
@@ -29,11 +30,12 @@ namespace Asteroids {
         Engine::ParticleSystem particleSystem = Engine::ParticleSystem();;
 
     public:
-        AsteroidsGame(int noAsteroids, float width, float height);
+        AsteroidsGame(float width, float height);
         void Update(Engine::InputState& inputState);
         void DrawFrame();
         void HandleEvents(Engine::InputState& inputState);
         int GetScore();
+        int GetStage();
     };
 }
 

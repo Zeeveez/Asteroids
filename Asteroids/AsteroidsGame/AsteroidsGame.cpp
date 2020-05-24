@@ -3,12 +3,12 @@
 #include <algorithm>
 
 namespace Asteroids {
-    AsteroidsGame::AsteroidsGame(int noAsteroids, float width, float height) : width(width), height(height),
+    AsteroidsGame::AsteroidsGame(float width, float height) : width(width), height(height),
         explosionSound(Engine::Audio("./Explosion.wav")),
         shootSound(Engine::Audio("./Shoot.wav")) {
         ship = Ship(width / 2, height / 2, 0, 0, 0, 0, &particleSystem);
         ship.Shield(300);
-        for (int i = 0; i < noAsteroids; i++) {
+        for (int i = 0; i < ((stage + 1) * 5); i++) {
             asteroids.push_back(Asteroid(
                 fmodf((float)rand(), width),
                 fmodf((float)rand(), height),
@@ -99,6 +99,21 @@ namespace Asteroids {
         }
 
         ship.Update(width, height);
+
+        if (asteroids.size() == 0) {
+            stage++;
+            for (int i = 0; i < ((stage + 1) * 5); i++) {
+                asteroids.push_back(Asteroid(
+                    fmodf((float)rand(), width),
+                    fmodf((float)rand(), height),
+                    ((float)rand()) / RAND_MAX * 360,
+                    2 * (0.5f - ((float)rand()) / RAND_MAX),
+                    2 * (0.5f - ((float)rand()) / RAND_MAX),
+                    0.1f * (0.5f - ((float)rand()) / RAND_MAX),
+                    50,
+                    &particleSystem));
+            }
+        }
     }
 
     void AsteroidsGame::DrawFrame() {
@@ -147,5 +162,9 @@ namespace Asteroids {
 
     int AsteroidsGame::GetScore() {
         return score;
+    }
+
+    int AsteroidsGame::GetStage() {
+        return stage;
     }
 }
