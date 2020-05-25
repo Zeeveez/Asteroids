@@ -14,6 +14,7 @@ conan_cmake_run(REQUIRES glfw/3.3.2@bincrafters/stable BASIC_SETUP BUILD missing
 conan_cmake_run(REQUIRES glew/2.1.0@bincrafters/stable BASIC_SETUP BUILD missing)
 conan_cmake_run(REQUIRES glm/0.9.9.7 BASIC_SETUP BUILD missing)
 conan_cmake_run(REQUIRES openal/1.19.1 BASIC_SETUP BUILD missing)
+conan_cmake_run(REQUIRES nlohmann_json/3.7.3 BASIC_SETUP BUILD missing)
 file (GLOB_RECURSE SourceFiles "*.cpp" "*.h")
 add_executable(Asteroids ${SourceFiles})
 

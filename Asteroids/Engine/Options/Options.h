@@ -22,6 +22,9 @@ namespace Engine {
         static Menu GetOptionsMenu();
         static void ChangeResolution(int change);
         static void ToggleFullscreen();
+
+        static void SaveConfig();
+        static void LoadConfig();
     };
 }
 #endif

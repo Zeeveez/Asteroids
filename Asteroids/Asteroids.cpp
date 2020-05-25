@@ -26,6 +26,7 @@ int main() {
     glfwInit();
     Engine::Audio::LoadDeviceAndContext();
     GLFWwindow* window = Engine::CreateGameWindow(Engine::Options::screenSize.first, Engine::Options::screenSize.second, "OpenGL", Engine::key_callback, Engine::mouse_callback, Engine::character_callback);
+    Engine::Options::LoadConfig();
     Engine::Menu menu(
         {
             { "New Game", [window]() { Game(window); } },

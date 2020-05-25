@@ -1,6 +1,7 @@
 #include "Options.h"
 #include "Engine/Audio/Audio.h"
 #include <GLFW/glfw3.h>
+#include <nlohmann/json.hpp>
 
 namespace Engine {
     std::vector<Options::ScreenSize> Options::screenSizes = {
@@ -37,6 +38,7 @@ namespace Engine {
         menuItems.push_back({ "Increase Res", []() { ChangeResolution(1); } });
         menuItems.push_back({ "Decrease Res", []() { ChangeResolution(-1); } });
         menuItems.push_back({ "Toggle Fullscreen", []() { ToggleFullscreen(); } });
+        menuItems.push_back({ "Save Settings", []() { SaveConfig(); } });
         return Engine::Menu(menuItems, true);
     }
 
@@ -56,5 +58,32 @@ namespace Engine {
     void Options::ToggleFullscreen() {
         fullscreen = !fullscreen;
         glfwSetWindowMonitor(glfwGetCurrentContext(), fullscreen ? glfwGetPrimaryMonitor() : NULL, 0, 0, screenSize.first, screenSize.second, GLFW_DONT_CARE);
+    }
+
+    void Options::SaveConfig() {
+        nlohmann::json json;
+        json["volume"] = volume;
+        json["screenSizeIndex"] = screenSizeIndex;
+        json["fullscreen"] = fullscreen;
+        std::ofstream f("config");
+        f << json;
+        f.close();
+    }
+
+    void Options::LoadConfig() {
+        nlohmann::json json;
+        std::ifstream f("config");
+        if (f.good()) {
+            f >> json;
+            f.close();
+            volume = json["volume"];
+            screenSizeIndex = json["screenSizeIndex"];
+            fullscreen = json["fullscreen"];
+
+            screenSize = screenSizes[screenSizeIndex];
+            glfwSetWindowSize(glfwGetCurrentContext(), screenSize.first, screenSize.second);
+            glViewport(0, 0, screenSize.first, screenSize.second);
+            glfwSetWindowMonitor(glfwGetCurrentContext(), fullscreen ? glfwGetPrimaryMonitor() : NULL, 0, 0, screenSize.first, screenSize.second, GLFW_DONT_CARE);
+        }
     }
 }
