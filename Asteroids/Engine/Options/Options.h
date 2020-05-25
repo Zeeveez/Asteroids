@@ -12,6 +12,7 @@ namespace Engine {
     private:
         static std::vector<ScreenSize> screenSizes;
         static int screenSizeIndex;
+        static bool fullscreen;
 
     public:
         static ScreenSize screenSize;
@@ -20,6 +21,7 @@ namespace Engine {
 
         static Menu GetOptionsMenu();
         static void ChangeResolution(int change);
+        static void ToggleFullscreen();
     };
 }
 #endif

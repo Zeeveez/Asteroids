@@ -29,12 +29,14 @@ namespace Engine {
     Options::ScreenSize Options::screenSize = screenSizes[screenSizeIndex];
     int Options::volume = 5;
     bool Options::drawBounds = false;
+    bool Options::fullscreen = false;
 
     Menu Options::GetOptionsMenu() {
         std::vector<Engine::MenuItem> menuItems = {};
         menuItems.push_back({ "Volume", &volume });
-        menuItems.push_back({ "Increase Res", []() {ChangeResolution(1); } });
-        menuItems.push_back({ "Decrease Res", []() {ChangeResolution(-1); } });
+        menuItems.push_back({ "Increase Res", []() { ChangeResolution(1); } });
+        menuItems.push_back({ "Decrease Res", []() { ChangeResolution(-1); } });
+        menuItems.push_back({ "Toggle Fullscreen", []() { ToggleFullscreen(); } });
         return Engine::Menu(menuItems, true);
     }
 
@@ -49,5 +51,10 @@ namespace Engine {
         screenSize = screenSizes[screenSizeIndex];
         glfwSetWindowSize(glfwGetCurrentContext(), screenSize.first, screenSize.second);
         glViewport(0, 0, screenSize.first, screenSize.second);
+    }
+
+    void Options::ToggleFullscreen() {
+        fullscreen = !fullscreen;
+        glfwSetWindowMonitor(glfwGetCurrentContext(), fullscreen ? glfwGetPrimaryMonitor() : NULL, 0, 0, screenSize.first, screenSize.second, GLFW_DONT_CARE);
     }
 }
