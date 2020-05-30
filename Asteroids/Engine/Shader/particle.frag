@@ -6,15 +6,11 @@
 
 // uniform inputs
 uniform float size;
-uniform vec2 pos;
 uniform vec3 col;
 
 // outputs
 out vec3 color;
 
 void main(){
-	vec2 normalisedPos = gl_FragCoord.xy - pos;
-	float dist = distance(vec2(0,0), normalisedPos);
-	if(dist > size / 2) { discard; }
 	color = col;
 }

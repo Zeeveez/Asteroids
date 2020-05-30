@@ -204,6 +204,7 @@ namespace Engine {
 
     void ParticleSystem::Render(float width, float height) {
         shader.Bind();
+        glEnable(GL_PROGRAM_POINT_SIZE);
         GLuint vertexbuffer;
         glGenBuffers(1, &vertexbuffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -221,6 +222,7 @@ namespace Engine {
                 particle.Draw(shader, width, height);
             }
         }
+        glDisable(GL_PROGRAM_POINT_SIZE);
         glDisableVertexAttribArray(0);
         glDeleteBuffers(1, &vertexbuffer);
     }
