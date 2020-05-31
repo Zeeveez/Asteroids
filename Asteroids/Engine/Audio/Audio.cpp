@@ -29,7 +29,7 @@ namespace Engine {
         WAV wav(file);
         if (wav.bitsPerSample == 8) {
             alBufferData(buffer, AL_FORMAT_MONO8, &(wav.data[0]), wav.samples, wav.sampleRate);
-        }else if (wav.bitsPerSample == 16) {
+        } else if (wav.bitsPerSample == 16) {
             alBufferData(buffer, AL_FORMAT_MONO16, &(wav.data[0]), wav.samples, wav.sampleRate);
         }
 
@@ -63,7 +63,7 @@ namespace Engine {
     }
 
     void Audio::Play() {
-        alSourcef(source, AL_GAIN, Options::volume/10.0f);
+        alSourcef(source, AL_GAIN, Options::volume / (float)Options::maxVolume);
         alSourcePlay(source);
     }
 
