@@ -30,7 +30,7 @@ int main() {
     Engine::Menu menu(
         {
             { "New Game", [window]() { Game(window); } },
-            { "Options", Engine::Options::GetOptionsMenu()},
+            { "Options", Engine::Options::GetOptionsMenu() },
             { "Quit", [window]() { glfwSetWindowShouldClose(window, true); } }
         }, false);
     while (!glfwWindowShouldClose(window)) {

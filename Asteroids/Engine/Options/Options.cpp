@@ -29,12 +29,14 @@ namespace Engine {
     int Options::screenSizeIndex = 12;
     Options::ScreenSize Options::screenSize = screenSizes[screenSizeIndex];
     int Options::volume = 5;
+    int Options::minVolume = 0;
+    int Options::maxVolume = 10;
     bool Options::drawBounds = false;
     bool Options::fullscreen = false;
 
     Menu Options::GetOptionsMenu() {
         std::vector<Engine::MenuItem> menuItems = {};
-        menuItems.push_back({ "Volume", &volume });
+        menuItems.push_back({ "Volume", std::tuple<int*, int*, int*>{ (&volume), (&minVolume), (&maxVolume) } });
         menuItems.push_back({ "Increase Res", []() { ChangeResolution(1); } });
         menuItems.push_back({ "Decrease Res", []() { ChangeResolution(-1); } });
         menuItems.push_back({ "Toggle Fullscreen", []() { ToggleFullscreen(); } });

@@ -40,17 +40,21 @@ namespace Engine {
                     glfwSetWindowUserPointer(window, oldInputState);
                     return;
                 } else {
-                    if (std::holds_alternative<int*>(std::get<1>(options[selection]))) {
-                        int* var = std::get<int*>(std::get<1>(options[selection]));
+                    if (std::holds_alternative<std::tuple<int*, int*, int*>>(std::get<1>(options[selection]))) {
+                        std::tuple<int*, int*, int*> var = std::get<std::tuple<int*, int*, int*>>(std::get<1>(options[selection]));
                         if (inputState.keys[GLFW_KEY_A]) {
-                            (*var)--;
-                            inputState.keys[GLFW_KEY_A] = false;
-                            selectSound.Play();
+                            if ((*std::get<0>(var)) > (*std::get<1>(var))) {
+                                (*std::get<0>(var))--;
+                                inputState.keys[GLFW_KEY_A] = false;
+                                selectSound.Play();
+                            }
                         }
                         if (inputState.keys[GLFW_KEY_D]) {
-                            (*var)++;
-                            inputState.keys[GLFW_KEY_D] = false;
-                            selectSound.Play();
+                            if ((*std::get<0>(var)) < (*std::get<2>(var))) {
+                                (*std::get<0>(var))++;
+                                inputState.keys[GLFW_KEY_D] = false;
+                                selectSound.Play();
+                            }
                         }
                     } else {
                         if (inputState.keys[GLFW_KEY_SPACE]) {
@@ -75,8 +79,14 @@ namespace Engine {
             // TODO: Update to have pixel sized gaps instead of float for consistency on different res
             for (int i = 0; i < options.size(); i++) {
                 float y = 0.05f * (options.size() - 1) - 0.15f * i;
-                Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32,
-                    (selection == i ? "> " : "  ") + std::get<0>(options[i]));
+                if (std::holds_alternative<std::tuple<int*, int*, int*>>(std::get<1>(options[i]))) {
+                    std::tuple<int*, int*, int*> var = std::get<std::tuple<int*, int*, int*>>(std::get<1>(options[i]));
+                    Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32,
+                        (selection == i ? "> " : "  ") + std::get<0>(options[i]) + "  < " + std::to_string(*std::get<0>(var)) + " >");
+                } else {
+                    Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32,
+                        (selection == i ? "> " : "  ") + std::get<0>(options[i]));
+                }
             }
             glfwSwapBuffers(window);
         }

@@ -17,6 +17,8 @@ namespace Engine {
     public:
         static ScreenSize screenSize;
         static int volume;
+        static int minVolume;
+        static int maxVolume;
         static bool drawBounds;
 
         static Menu GetOptionsMenu();

@@ -11,7 +11,10 @@
 namespace Engine {
     class Menu;
 
-    typedef std::tuple<std::string, std::variant<std::monostate, int*, std::function<void()>, Menu>> MenuItem;
+    typedef std::tuple<std::string, std::variant<
+                                        std::monostate,
+                                        std::tuple<int*, int*, int*>,
+                                        std::function<void()>, Menu>> MenuItem;
     class Menu {
     public:
         Menu(std::vector<MenuItem> options, bool subMenu);
