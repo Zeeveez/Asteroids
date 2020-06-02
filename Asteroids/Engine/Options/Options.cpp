@@ -37,6 +37,7 @@ namespace Engine {
     Menu Options::GetOptionsMenu() {
         std::vector<Engine::MenuItem> menuItems = {};
         menuItems.push_back({ "Volume", std::tuple<int*, int*, int*>{ (&volume), (&minVolume), (&maxVolume) } });
+        // TODO: Update to have a left/right selection for resolution instead of 2 buttons
         menuItems.push_back({ "Increase Res", []() { ChangeResolution(1); } });
         menuItems.push_back({ "Decrease Res", []() { ChangeResolution(-1); } });
         menuItems.push_back({ "Toggle Fullscreen", []() { ToggleFullscreen(); } });
