@@ -57,7 +57,7 @@ void Game(GLFWwindow* window) {
     float v = 0;
     float min = 0;
     float max = 120;
-    Engine::ProgressBar progBar(&v, &min, &max);
+    Engine::ProgressBar progBar(-0.5f, 0.9f, 1.0f, 0.1f, Engine::Anchor::TOP_CENTER, Engine::PositionMode::PIXELS, &v, &min, &max);
 
 
     while (true) {
@@ -78,7 +78,7 @@ void Game(GLFWwindow* window) {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         game.DrawFrame();
         Engine::Text::DrawString(font, textShader, Engine::Text::Anchor::TOP_LEFT, -1.0f, 1.0f, 24, "Score: " + std::to_string(game.GetScore()) + "\nStage: " + std::to_string(game.GetStage()));
-        progBar.Draw(graphicsShader, -0.5f, 0.9f, 1.0f, 0.1f, Engine::ProgressBar::Anchor::TOP_CENTER);
+        progBar.Draw(graphicsShader);
         glfwSwapBuffers(window);
     }
 }
