@@ -6,6 +6,7 @@
 
 namespace Engine {
     namespace Text {
+        // TODO : Create a label class and don't use Text directly
         enum class Anchor {
             TOP_LEFT,
             TOP_CENTER,

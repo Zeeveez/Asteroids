@@ -5,6 +5,7 @@ namespace Engine {
     ProgressBar::ProgressBar(float x, float y, float width, float height, Anchor anchor, PositionMode positionMode, float* val, float* min, float* max) : HudElement(x, y, width, height, anchor, positionMode), val(val), min(min), max(max) {}
 
     void ProgressBar::Draw(Shader& shader) {
+        // TODO : Actually use position mode and anchor
         GLfloat g_vertex_buffer_data[] = {
              x, y,
              x + width * (*val - *min) / (*max - *min), y,
