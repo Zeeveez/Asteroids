@@ -14,8 +14,8 @@
 #include "Engine/Window/Window.h"
 #include "Engine/Timing/Timing.h"
 #include "Engine/Texture/Texture.h"
-#include "Engine/Text/Text.h"
-#include "Engine/Text/Menu/Menu.h"
+#include "Engine/HUD/HUDElement/Text/Text.h"
+#include "Engine/HUD/HUDElement/Text/Menu/Menu.h"
 #include "Engine/Audio/Audio.h"
 #include "Engine/Options/Options.h"
 #include <string>

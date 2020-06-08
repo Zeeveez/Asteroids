@@ -1,4 +1,5 @@
 #include "ParticleSystem.h"
+#include "Engine/Options/Options.h"
 
 namespace Engine {
     void ParticleSystem::CustomExplosion(
@@ -203,27 +204,29 @@ namespace Engine {
     }
 
     void ParticleSystem::Render(float width, float height) {
-        shader.Bind();
-        glEnable(GL_PROGRAM_POINT_SIZE);
-        GLuint vertexbuffer;
-        glGenBuffers(1, &vertexbuffer);
-        glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-        glEnableVertexAttribArray(0);
-        glVertexAttribPointer(
-            0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-            2,                  // size
-            GL_FLOAT,           // type
-            GL_FALSE,           // normalized?
-            0,                  // stride
-            (void*)0            // array buffer offset
-        );
-        for (auto& particle : particles) {
-            if (particle.IsAlive()) {
-                particle.Draw(shader, width, height);
+        if (Options::drawParticles) {
+            shader.Bind();
+            glEnable(GL_PROGRAM_POINT_SIZE);
+            GLuint vertexbuffer;
+            glGenBuffers(1, &vertexbuffer);
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glEnableVertexAttribArray(0);
+            glVertexAttribPointer(
+                0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+                2,                  // size
+                GL_FLOAT,           // type
+                GL_FALSE,           // normalized?
+                0,                  // stride
+                (void*)0            // array buffer offset
+            );
+            for (auto& particle : particles) {
+                if (particle.IsAlive()) {
+                    particle.Draw(shader, width, height);
+                }
             }
+            glDisable(GL_PROGRAM_POINT_SIZE);
+            glDisableVertexAttribArray(0);
+            glDeleteBuffers(1, &vertexbuffer);
         }
-        glDisable(GL_PROGRAM_POINT_SIZE);
-        glDisableVertexAttribArray(0);
-        glDeleteBuffers(1, &vertexbuffer);
     }
 }

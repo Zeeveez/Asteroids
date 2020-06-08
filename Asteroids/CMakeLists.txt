@@ -29,7 +29,7 @@ configure_file(./Engine/Shader/particle.vert ${CMAKE_CURRENT_BINARY_DIR}/bin/par
 
 configure_file(./Engine/Shader/text.frag ${CMAKE_CURRENT_BINARY_DIR}/bin/text.frag COPYONLY)
 configure_file(./Engine/Shader/text.vert ${CMAKE_CURRENT_BINARY_DIR}/bin/text.vert COPYONLY)
-configure_file(./Engine/Text/font.dds ${CMAKE_CURRENT_BINARY_DIR}/bin/font.dds COPYONLY)
+configure_file(./Engine/HUD/HUDElement/Text/font.dds ${CMAKE_CURRENT_BINARY_DIR}/bin/font.dds COPYONLY)
 
 configure_file(./Engine/Audio/MenuSelect.wav ${CMAKE_CURRENT_BINARY_DIR}/bin/MenuSelect.wav COPYONLY)
 configure_file(./Engine/Audio/Explosion.wav ${CMAKE_CURRENT_BINARY_DIR}/bin/Explosion.wav COPYONLY)

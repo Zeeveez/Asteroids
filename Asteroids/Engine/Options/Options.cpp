@@ -32,6 +32,7 @@ namespace Engine {
     int Options::minVolume = 0;
     int Options::maxVolume = 10;
     bool Options::drawBounds = false;
+    bool Options::drawParticles = true;
     bool Options::fullscreen = false;
 
     Menu Options::GetOptionsMenu() {

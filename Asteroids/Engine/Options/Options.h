@@ -2,7 +2,7 @@
 #define OPTIONS_H
 
 #include <vector>
-#include "Engine/Text/Menu/Menu.h"
+#include "Engine/HUD/HUDElement/Text/Menu/Menu.h"
 
 namespace Engine {
     class Options {
@@ -20,6 +20,7 @@ namespace Engine {
         static int minVolume;
         static int maxVolume;
         static bool drawBounds;
+        static bool drawParticles;
 
         static Menu GetOptionsMenu();
         static void ChangeResolution(int change);

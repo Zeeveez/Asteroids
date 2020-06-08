@@ -1,7 +1,7 @@
 #ifndef MENU_H
 #define MENU_H
 
-#include "Engine/Text/Text.h"
+#include "Engine/HUD/HUDElement/Text/Text.h"
 #include <string>
 #include <vector>
 #include <functional>

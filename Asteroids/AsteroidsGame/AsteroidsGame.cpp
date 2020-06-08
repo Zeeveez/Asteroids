@@ -158,6 +158,10 @@ namespace Asteroids {
                 inputState.keys[GLFW_KEY_B] = false;
                 Engine::Options::drawBounds = !Engine::Options::drawBounds;
             }
+            if (inputState.keys[GLFW_KEY_P]) {
+                inputState.keys[GLFW_KEY_P] = false;
+                Engine::Options::drawParticles = !Engine::Options::drawParticles;
+            }
         }
     }
 
