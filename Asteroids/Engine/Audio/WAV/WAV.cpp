@@ -55,18 +55,19 @@ namespace Engine {
         samples = subchunk2Size / channels / bitsPerSample * 8;
 
         //  Data
-        data.reserve(samples);
         if (bitsPerSample == 8) {
+            data8.reserve(samples);
             char dat;
-            for (uint32_t i = 0; i < samples; i++) {
+            for (uint32_t i = 0; i < samples * channels; i++) {
                 f.read(reinterpret_cast<char*>(&dat), sizeof(char));
-                data.push_back(dat);
+                data8.push_back(dat);
             }
         } else if (bitsPerSample == 16) {
+            data16.reserve(samples);
             int16_t dat;
-            for (uint32_t i = 0; i < samples; i++) {
+            for (uint32_t i = 0; i < samples * channels; i++) {
                 f.read(reinterpret_cast<char*>(&dat), sizeof(int16_t));
-                data.push_back(dat);
+                data16.push_back(dat);
             }
         }
         f.close();

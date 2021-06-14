@@ -27,10 +27,17 @@ namespace Engine {
         // check for errors
 
         WAV wav(file);
-        if (wav.bitsPerSample == 8) {
-            alBufferData(buffer, AL_FORMAT_MONO8, &(wav.data[0]), wav.samples, wav.sampleRate);
-        } else if (wav.bitsPerSample == 16) {
-            alBufferData(buffer, AL_FORMAT_MONO16, &(wav.data[0]), wav.samples, wav.sampleRate);
+        if (wav.channels == 1 && wav.bitsPerSample == 8) {
+            alBufferData(buffer, AL_FORMAT_MONO8, &(wav.data8[0]), wav.samples, wav.sampleRate);
+        }
+        else if (wav.channels == 1 && wav.bitsPerSample == 16) {
+            alBufferData(buffer, AL_FORMAT_MONO16, &(wav.data16[0]), wav.samples * 2, wav.sampleRate);
+        }
+        else if (wav.channels == 2 && wav.bitsPerSample == 8) {
+            alBufferData(buffer, AL_FORMAT_STEREO8, &(wav.data8[0]), wav.samples * wav.channels, wav.sampleRate);
+        }
+        else if (wav.channels == 2 && wav.bitsPerSample == 16) {
+            alBufferData(buffer, AL_FORMAT_STEREO16, &(wav.data16[0]), wav.samples * 2 * wav.channels, wav.sampleRate);
         }
 
         alSourcei(source, AL_BUFFER, buffer);
