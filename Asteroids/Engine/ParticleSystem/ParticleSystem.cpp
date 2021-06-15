@@ -219,52 +219,44 @@ namespace Engine {
 
     void ParticleSystem::Render(float width, float height) {
         if (Options::drawParticles) {
-            if (!particles.size()) { return; }
             shader.Bind();
 
-            GLfloat* vertexbufferdata = new GLfloat[particles.size() * 3];
-            GLfloat* colorbufferdata = new GLfloat[particles.size() * 3];
+            GLfloat* bufferdata = new GLfloat[particles.size() * 6];    // x,y,size,r,g,b
             int i = 0;
             for (auto& p : particles) {
                 auto pos = p.GetParticlePos();
                 auto col = p.GetParticleColor();
-                vertexbufferdata[i] = pos.x / width * 2 - 1;
-                vertexbufferdata[i + 1] = pos.y / height * 2 - 1;
-                vertexbufferdata[i + 2] = pos.z;
-                colorbufferdata[i] = col.r;
-                colorbufferdata[i + 1] = col.g;
-                colorbufferdata[i + 2] = col.b;
-                i += 3;
+                bufferdata[i] = pos.x / width * 2 - 1;
+                bufferdata[i + 1] = pos.y / height * 2 - 1;
+                bufferdata[i + 2] = pos.z;
+                bufferdata[i + 3] = col.r;
+                bufferdata[i + 4] = col.g;
+                bufferdata[i + 5] = col.b;
+                i += 6;
             }
 
             GLuint vertexbuffer;
             glGenBuffers(1, &vertexbuffer);
             glEnableVertexAttribArray(0);
-            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
-            glBufferData(GL_ARRAY_BUFFER, particles.size() * 3 * sizeof(GLfloat), vertexbufferdata, GL_STREAM_DRAW);
-            glVertexAttribDivisor(0, 1);
-            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);   // x,y,size
-
-            GLuint colorbuffer;
-            glGenBuffers(1, &colorbuffer);
             glEnableVertexAttribArray(1);
-            glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
-            glBufferData(GL_ARRAY_BUFFER, particles.size() * 3 * sizeof(GLfloat), colorbufferdata, GL_STREAM_DRAW);
-            glVertexAttribDivisor(1, 1);
-            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);   // r,g,b
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glBufferData(GL_ARRAY_BUFFER, particles.size() * 6 * sizeof(GLfloat), bufferdata, GL_DYNAMIC_DRAW);
+            //glVertexAttribDivisor(0, 1);
+            //glVertexAttribDivisor(1, 1);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)0);   // x,y,size
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));   // r,g,b
 
             glEnable(GL_PROGRAM_POINT_SIZE);
-            glDrawArraysInstanced(GL_POINTS, 0, 1, particles.size());
+            //glDrawArraysInstanced(GL_POINTS, 0, 1, particles.size());
+            glDrawArrays(GL_POINTS, 0, particles.size());
             glDisable(GL_PROGRAM_POINT_SIZE);
 
-            glVertexAttribDivisor(0, 0);
-            glVertexAttribDivisor(1, 0);
+            //glVertexAttribDivisor(0, 0);
+            //glVertexAttribDivisor(1, 0);
             glDisableVertexAttribArray(0);
             glDisableVertexAttribArray(1);
             glDeleteBuffers(1, &vertexbuffer);
-            glDeleteBuffers(1, &colorbuffer);
-            delete[] vertexbufferdata;
-            delete[] colorbufferdata;
+            delete[] bufferdata;
         }
     }
 }
