@@ -26,6 +26,8 @@ namespace Engine {
         bool IsAlive();
         void Update(float maxX, float maxY, bool wrap = false);
         void Draw(Shader& shader, float width, float height);
+        glm::vec3 GetParticlePos();
+        glm::vec3 GetParticleColor();
     };
 }
 

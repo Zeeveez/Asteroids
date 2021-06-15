@@ -4,13 +4,12 @@
 // in bool gl_FrontFacing;
 // in vec2 gl_PointCoord;
 
-// uniform inputs
-uniform float size;
-uniform vec3 col;
+// inputs
+in vec3 fragmentColor;
 
 // outputs
 out vec3 color;
 
 void main(){
-	color = col;
+	color = fragmentColor;
 }

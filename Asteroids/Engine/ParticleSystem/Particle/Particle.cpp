@@ -27,4 +27,12 @@ namespace Engine {
         glUniform3fv(glGetUniformLocation(shader.program, "col"), 1, &colorFunc(age, maxAge)[0]);
         glDrawArrays(GL_POINTS, 0, 1);
     }
+    glm::vec3 Particle::GetParticlePos()
+    {
+        return { x, y, size };
+    }
+    glm::vec3 Particle::GetParticleColor()
+    {
+        return colorFunc(age, maxAge);
+    }
 }

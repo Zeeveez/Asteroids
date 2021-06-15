@@ -43,13 +43,17 @@ namespace Engine {
             [](int age, int maxAge) {
                 if (age < 90) {
                     return glm::vec3(0.33f, 0.8f, 0.988f);
-                } else if (age < 180) {
+                }
+                else if (age < 180) {
                     return glm::vec3(0.96, 0.65, 0.72);
-                } else if (age < 270) {
+                }
+                else if (age < 270) {
                     return glm::vec3(1.0f, 1.0f, 1.0f);
-                } else if (age < 360) {
+                }
+                else if (age < 360) {
                     return glm::vec3(0.96, 0.65, 0.72);
-                } else {
+                }
+                else {
                     return glm::vec3(0.33f, 0.8f, 0.988f);
                 }
             });
@@ -68,13 +72,17 @@ namespace Engine {
             [](int age, int maxAge) {
                 if (age < 90) {
                     return glm::vec3(0.33f, 0.8f, 0.988f);
-                } else if (age < 180) {
+                }
+                else if (age < 180) {
                     return glm::vec3(0.96, 0.65, 0.72);
-                } else if (age < 270) {
+                }
+                else if (age < 270) {
                     return glm::vec3(1.0f, 1.0f, 1.0f);
-                } else if (age < 360) {
+                }
+                else if (age < 360) {
                     return glm::vec3(0.96, 0.65, 0.72);
-                } else {
+                }
+                else {
                     return glm::vec3(0.33f, 0.8f, 0.988f);
                 }
             });
@@ -96,12 +104,14 @@ namespace Engine {
                         1.0f,
                         1.0f,
                         1.0f - (float)age / maxAge / 0.3f);
-                } else if ((float)age / maxAge < 0.6) {
+                }
+                else if ((float)age / maxAge < 0.6) {
                     return glm::vec3(
                         1.0f,
                         1.0f - ((float)age / maxAge - 0.3f) / 0.3f,
                         0.0f);
-                } else {
+                }
+                else {
                     return glm::vec3(
                         1.0f - ((float)age / maxAge - 0.6f) / 0.4f,
                         0.0f,
@@ -126,12 +136,14 @@ namespace Engine {
                         1.0f,
                         1.0f,
                         1.0f - (float)age / maxAge / 0.3f);
-                } else if ((float)age / maxAge < 0.6) {
+                }
+                else if ((float)age / maxAge < 0.6) {
                     return glm::vec3(
                         1.0f,
                         1.0f - ((float)age / maxAge - 0.3f) / 0.3f,
                         0.0f);
-                } else {
+                }
+                else {
                     return glm::vec3(
                         1.0f - ((float)age / maxAge - 0.6f) / 0.4f,
                         0.0f,
@@ -177,12 +189,14 @@ namespace Engine {
                             1.0f,
                             1.0f,
                             1.0f - (float)age / maxAge / 0.3f);
-                    } else if (age / maxAge < 0.6) {
+                    }
+                    else if (age / maxAge < 0.6) {
                         return glm::vec3(
                             1.0f,
                             1.0f - ((float)age / maxAge - 0.3f) / 0.3f,
                             0.0f);
-                    } else {
+                    }
+                    else {
                         return glm::vec3(
                             1.0f - ((float)age / maxAge - 0.6f) / 0.4f,
                             0.0f,
@@ -205,28 +219,52 @@ namespace Engine {
 
     void ParticleSystem::Render(float width, float height) {
         if (Options::drawParticles) {
+            if (!particles.size()) { return; }
             shader.Bind();
-            glEnable(GL_PROGRAM_POINT_SIZE);
+
+            GLfloat* vertexbufferdata = new GLfloat[particles.size() * 3];
+            GLfloat* colorbufferdata = new GLfloat[particles.size() * 3];
+            int i = 0;
+            for (auto& p : particles) {
+                auto pos = p.GetParticlePos();
+                auto col = p.GetParticleColor();
+                vertexbufferdata[i] = pos.x / width * 2 - 1;
+                vertexbufferdata[i + 1] = pos.y / height * 2 - 1;
+                vertexbufferdata[i + 2] = pos.z;
+                colorbufferdata[i] = col.r;
+                colorbufferdata[i + 1] = col.g;
+                colorbufferdata[i + 2] = col.b;
+                i += 3;
+            }
+
             GLuint vertexbuffer;
             glGenBuffers(1, &vertexbuffer);
-            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
             glEnableVertexAttribArray(0);
-            glVertexAttribPointer(
-                0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-                2,                  // size
-                GL_FLOAT,           // type
-                GL_FALSE,           // normalized?
-                0,                  // stride
-                (void*)0            // array buffer offset
-            );
-            for (auto& particle : particles) {
-                if (particle.IsAlive()) {
-                    particle.Draw(shader, width, height);
-                }
-            }
+            glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
+            glBufferData(GL_ARRAY_BUFFER, particles.size() * 3 * sizeof(GLfloat), vertexbufferdata, GL_STREAM_DRAW);
+            glVertexAttribDivisor(0, 1);
+            glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);   // x,y,size
+
+            GLuint colorbuffer;
+            glGenBuffers(1, &colorbuffer);
+            glEnableVertexAttribArray(1);
+            glBindBuffer(GL_ARRAY_BUFFER, colorbuffer);
+            glBufferData(GL_ARRAY_BUFFER, particles.size() * 3 * sizeof(GLfloat), colorbufferdata, GL_STREAM_DRAW);
+            glVertexAttribDivisor(1, 1);
+            glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);   // r,g,b
+
+            glEnable(GL_PROGRAM_POINT_SIZE);
+            glDrawArraysInstanced(GL_POINTS, 0, 1, particles.size());
             glDisable(GL_PROGRAM_POINT_SIZE);
+
+            glVertexAttribDivisor(0, 0);
+            glVertexAttribDivisor(1, 0);
             glDisableVertexAttribArray(0);
+            glDisableVertexAttribArray(1);
             glDeleteBuffers(1, &vertexbuffer);
+            glDeleteBuffers(1, &colorbuffer);
+            delete[] vertexbufferdata;
+            delete[] colorbufferdata;
         }
     }
 }
