@@ -21,7 +21,21 @@
 #include <string>
 
 void Game(GLFWwindow* window);
+void GLAPIENTRY
+MessageCallback(GLenum source,
+    GLenum type,
+    GLuint id,
+    GLenum severity,
+    GLsizei length,
+    const GLchar* message,
+    const void* userParam)
+{
+    fprintf(stderr, "GL CALLBACK: %s type = 0x%x, severity = 0x%x, message = %s\n",
+        (type == GL_DEBUG_TYPE_ERROR ? "** GL ERROR **" : ""),
+        type, severity, message);
+}
 
+// During init, enable debug output
 int main() {
     glfwInit();
     Engine::Audio::LoadDeviceAndContext();
@@ -33,6 +47,8 @@ int main() {
             { "Options", Engine::Options::GetOptionsMenu() },
             { "Quit", [window]() { glfwSetWindowShouldClose(window, true); } }
         }, false);
+    glEnable(GL_DEBUG_OUTPUT);
+    glDebugMessageCallback(MessageCallback, 0);
     while (!glfwWindowShouldClose(window)) {
         menu.Show(window);
     }
