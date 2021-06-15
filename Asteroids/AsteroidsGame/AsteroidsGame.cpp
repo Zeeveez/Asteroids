@@ -9,10 +9,14 @@ namespace Asteroids {
         ship = Ship(width / 2, height / 2, 0, 0, 0, 0, &particleSystem);
         ship.Shield(300);
         for (int i = 0; i < ((stage + 1) * 5); i++) {
-            // TODO: don't spawn asteroids too close to ship
+            float x = fmodf((float)rand(), width);
+            float y = fmodf((float)rand(), height);
+            while (sqrtf((x - ship.GetX()) * (x - ship.GetX()) + (y - ship.GetY()) * (y - ship.GetY())) < 200) {
+                x = fmodf((float)rand(), width);
+                y = fmodf((float)rand(), height);
+            }
             asteroids.push_back(Asteroid(
-                fmodf((float)rand(), width),
-                fmodf((float)rand(), height),
+                x, y,
                 ((float)rand()) / RAND_MAX * 360,
                 2 * (0.5f - ((float)rand()) / RAND_MAX),
                 2 * (0.5f - ((float)rand()) / RAND_MAX),
@@ -104,9 +108,14 @@ namespace Asteroids {
         if (asteroids.size() == 0) {
             stage++;
             for (int i = 0; i < ((stage + 1) * 5); i++) {
+                float x = fmodf((float)rand(), width);
+                float y = fmodf((float)rand(), height);
+                while (sqrtf((x - ship.GetX()) * (x - ship.GetX()) + (y - ship.GetY()) * (y - ship.GetY())) < 200) {
+                    x = fmodf((float)rand(), width);
+                    y = fmodf((float)rand(), height);
+                }
                 asteroids.push_back(Asteroid(
-                    fmodf((float)rand(), width),
-                    fmodf((float)rand(), height),
+                    x, y,
                     ((float)rand()) / RAND_MAX * 360,
                     2 * (0.5f - ((float)rand()) / RAND_MAX),
                     2 * (0.5f - ((float)rand()) / RAND_MAX),

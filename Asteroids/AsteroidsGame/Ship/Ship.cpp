@@ -37,6 +37,14 @@ namespace Asteroids {
         return upgradeLevel;
     }
 
+    float Ship::GetX() {
+        return x;
+    }
+
+    float Ship::GetY() {
+        return y;
+    }
+
     void Ship::Accelerate(float power) {
         dx += power * std::sin(angle);
         dy -= power * std::cos(angle);
