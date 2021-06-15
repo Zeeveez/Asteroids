@@ -25,7 +25,6 @@ namespace Engine {
         Particle(float x, float y, float dx, float dy, int age, int maxAge, float size, ParticleFunc colorFunc);
         bool IsAlive();
         void Update(float maxX, float maxY, bool wrap = false);
-        void Draw(Shader& shader, float width, float height);
         glm::vec3 GetParticlePos();
         glm::vec3 GetParticleColor();
     };

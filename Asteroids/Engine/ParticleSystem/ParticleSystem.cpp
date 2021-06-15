@@ -235,6 +235,10 @@ namespace Engine {
                 i += 6;
             }
 
+            GLuint VAO;
+            glGenVertexArrays(1, &VAO);
+            glBindVertexArray(VAO);
+
             GLuint vertexbuffer;
             glGenBuffers(1, &vertexbuffer);
             glEnableVertexAttribArray(0);
@@ -257,6 +261,9 @@ namespace Engine {
             glDisableVertexAttribArray(1);
             glDeleteBuffers(1, &vertexbuffer);
             delete[] bufferdata;
+
+            glBindVertexArray(0);
+            glDeleteVertexArrays(1, &VAO);
         }
     }
 }

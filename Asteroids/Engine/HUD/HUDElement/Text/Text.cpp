@@ -79,6 +79,10 @@ namespace Engine {
             shader.Bind();
             texture.Bind(shader);
 
+            GLuint VAO;
+            glGenVertexArrays(1, &VAO);
+            glBindVertexArray(VAO);
+
             GLuint vertexbuffer;
             glGenBuffers(1, &vertexbuffer);
             glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -117,6 +121,9 @@ namespace Engine {
 
             glDeleteBuffers(1, &vertexbuffer);
             glDeleteBuffers(1, &uvbuffer);
+
+            glBindVertexArray(0);
+            glDeleteVertexArrays(1, &VAO);
         }
     }
 }

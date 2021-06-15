@@ -21,6 +21,10 @@ namespace Asteroids {
              (x + 1) / (width / 2) - 1.0f, (y + 1) / (height / 2) - 1.0f
         };
 
+        GLuint VAO;
+        glGenVertexArrays(1, &VAO);
+        glBindVertexArray(VAO);
+
         // This will identify our vertex buffer
         shader.Bind();
         glUniform3f(glGetUniformLocation(shader.program, "col"), r, g, b);
@@ -46,8 +50,10 @@ namespace Asteroids {
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); // Starting from vertex 0; 3 vertices total -> 1 triangle
         glDisableVertexAttribArray(0);
 
-
         glDeleteBuffers(1, &vertexbuffer);
+
+        glBindVertexArray(0);
+        glDeleteVertexArrays(1, &VAO);
     }
 
     Engine::Rectangle Bullet::GetBounds() {

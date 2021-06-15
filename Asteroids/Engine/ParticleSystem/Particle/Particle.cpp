@@ -17,20 +17,11 @@ namespace Engine {
         }
     }
 
-    void Particle::Draw(Shader& shader, float width, float height) {
-        GLfloat g_vertex_buffer_data[] = {
-             x / (width / 2) - 1.0f, y / (height / 2) - 1.0f
-        };
-        glBufferData(GL_ARRAY_BUFFER, sizeof(g_vertex_buffer_data), g_vertex_buffer_data, GL_STATIC_DRAW);
-
-        glUniform1f(glGetUniformLocation(shader.program, "size"), size);
-        glUniform3fv(glGetUniformLocation(shader.program, "col"), 1, &colorFunc(age, maxAge)[0]);
-        glDrawArrays(GL_POINTS, 0, 1);
-    }
     glm::vec3 Particle::GetParticlePos()
     {
         return { x, y, size };
     }
+
     glm::vec3 Particle::GetParticleColor()
     {
         return colorFunc(age, maxAge);

@@ -15,6 +15,10 @@ namespace Engine {
             drawPoints.push_back(glm::vec2((x + pointX * size) / (width / 2) - 1.0f, (y + pointY * size) / (height / 2) - 1.0f));
         }
 
+        GLuint VAO;
+        glGenVertexArrays(1, &VAO);
+        glBindVertexArray(VAO);
+
         GLuint vertexbuffer;
         glGenBuffers(1, &vertexbuffer);
         glBindBuffer(GL_ARRAY_BUFFER, vertexbuffer);
@@ -56,6 +60,8 @@ namespace Engine {
 
             glDeleteBuffers(1, &vertexbuffer);
         }
+        glBindVertexArray(0);
+        glDeleteVertexArrays(1, &VAO);
     }
 
     void PolyShape::Update(float maxX, float maxY, bool wrap) {
@@ -68,7 +74,8 @@ namespace Engine {
             if (x < -size) { x += maxX + size; }
             if (y > maxY + size) { y -= maxY + size * 2; }
             if (y < -size) { y += maxY + size * 2; }
-        } else {
+        }
+        else {
             if (x > maxX + size) { alive = false; }
             if (x < -size) { alive = false; }
             if (y > maxY + size) { alive = false; }
