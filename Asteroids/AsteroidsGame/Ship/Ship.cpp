@@ -30,6 +30,11 @@ namespace Asteroids {
 
     void Ship::Upgrade() {
         upgradeLevel++;
+        upgradeLevel = upgradeLevel > 2 ? 2 : upgradeLevel;
+    }
+
+    int Ship::CurrentLevel() {
+        return upgradeLevel;
     }
 
     void Ship::Accelerate(float power) {

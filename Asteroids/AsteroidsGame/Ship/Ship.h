@@ -21,6 +21,7 @@ namespace Asteroids {
         int FullShield();
         void Explode();
         void Upgrade();
+        int Ship::CurrentLevel();
         void Accelerate(float power);
         void Update(float maxX, float maxY, bool wrap = true);
         std::vector<Bullet> Fire(float power);

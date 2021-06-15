@@ -151,8 +151,15 @@ namespace Asteroids {
             if (inputState.keys[GLFW_KEY_SPACE]) {
                 inputState.keys[GLFW_KEY_SPACE] = false;
                 std::vector<Bullet> newBullets = ship.Fire(4);
+                int bulletCount = bullets.size();
                 bullets.insert(bullets.end(), newBullets.begin(), newBullets.end());
-                shootSound.Play();
+                // TODO: make bullet cap feel better
+                while (bullets.size() > (ship.CurrentLevel() * 2 + 1) * 5) {
+                    bullets.pop_back();
+                }
+                if (bullets.size() > bulletCount) {
+                    shootSound.Play();
+                }
             }
             if (inputState.keys[GLFW_KEY_B]) {
                 inputState.keys[GLFW_KEY_B] = false;
