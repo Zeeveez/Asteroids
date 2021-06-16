@@ -1,5 +1,5 @@
 #include "ProgressBar.h"
-#include <GLFW\glfw3.h>
+#include <GLFW/glfw3.h>
 
 namespace Engine {
     ProgressBar::ProgressBar(float x, float y, float width, float height, Anchor anchor, PositionMode positionMode, float* val, float* min, float* max) : HudElement(x, y, width, height, anchor, positionMode), val(val), min(min), max(max) {}
