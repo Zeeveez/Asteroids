@@ -127,7 +127,7 @@ namespace Asteroids {
     }
 
     void AsteroidsGame::DrawFrame() {
-        particleSystem.Render(width, height);
+        particleSystem.Render();
         for (auto& bullet : bullets) {
             if (bullet.IsAlive()) {
                 bullet.Draw(shader, width, height);

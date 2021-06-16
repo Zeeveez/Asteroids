@@ -23,11 +23,10 @@ namespace Asteroids {
         std::vector<Bullet> bullets = {};
         std::vector<Asteroid> asteroids = {};
         std::vector<Upgrade> upgrades = {};
-        std::vector<Engine::Particle> particles = {};
         int lives = 3;
         Ship ship;
         Engine::Shader shader = Engine::Shader("./default");
-        Engine::ParticleSystem particleSystem = Engine::ParticleSystem();;
+        Engine::ParticleSystem particleSystem = Engine::ParticleSystem();
 
     public:
         AsteroidsGame(float width, float height);
