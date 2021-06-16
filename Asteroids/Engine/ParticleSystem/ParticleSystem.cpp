@@ -122,13 +122,13 @@ namespace Engine {
             }
             i += 6;
         }
-        glNamedBufferSubData(VBO, NULL, particle_render_buffer.size() * sizeof(GLfloat), particle_render_buffer.data());
     }
 
     void ParticleSystem::Render() {
         if (Options::drawParticles) {
             shader.Bind();
             glBindVertexArray(VAO);
+            glNamedBufferSubData(VBO, NULL, particle_render_buffer.size() * sizeof(GLfloat), particle_render_buffer.data());
             glEnable(GL_PROGRAM_POINT_SIZE);
             glDrawArrays(GL_POINTS, 0, particles.size());
             glDisable(GL_PROGRAM_POINT_SIZE);
