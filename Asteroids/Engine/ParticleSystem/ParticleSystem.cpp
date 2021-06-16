@@ -122,6 +122,7 @@ namespace Engine {
             }
             i += 6;
         }
+        glNamedBufferSubData(VBO, NULL, particle_render_buffer.size() * sizeof(GLfloat), particle_render_buffer.data());
     }
 
     void ParticleSystem::Render() {
