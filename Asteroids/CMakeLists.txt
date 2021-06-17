@@ -16,7 +16,12 @@ conan_cmake_run(REQUIRES glm/0.9.9.7 BASIC_SETUP BUILD missing)
 conan_cmake_run(REQUIRES openal/1.19.1 BASIC_SETUP BUILD missing)
 conan_cmake_run(REQUIRES nlohmann_json/3.7.3 BASIC_SETUP BUILD missing)
 file (GLOB_RECURSE SourceFiles "*.cpp" "*.h")
-add_executable(Asteroids ${SourceFiles})
+
+if(WIN32)
+  add_executable(Asteroids WIN32 ${SourceFiles})
+else()
+  add_executable(Asteroids ${SourceFiles})
+endif()
 
 set_property(TARGET Asteroids PROPERTY CXX_STANDARD 17)
 set_property(TARGET Asteroids PROPERTY CXX_STANDARD_REQUIRED ON)

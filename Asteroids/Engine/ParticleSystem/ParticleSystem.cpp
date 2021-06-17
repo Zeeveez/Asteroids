@@ -33,7 +33,7 @@ namespace Engine {
     void ParticleSystem::Explosion(float x, float y) {
         static const float PI = 3.1415926535f;
         CustomExplosion(
-            x, y, 100, 5,
+            x, y, 100, 10,
             5, 4.0f,
             0.3f, 0.2f,
             [](float point, float pointCount, float ring, float ringCount) { return 1; },
@@ -71,7 +71,7 @@ namespace Engine {
             particles[nextPart].pos.y = y;
             particles[nextPart].speed.x = -std::sin(finalAngle) + dx;
             particles[nextPart].speed.y = std::cos(finalAngle) + dy;
-            particles[nextPart].size = 5.0f;
+            particles[nextPart].size = 10.0f;
             particles[nextPart].life = 30.0f;
             particles[nextPart].maxLife = 30.0f;
             particles[nextPart].colorFunc = [](float age) {
@@ -108,17 +108,17 @@ namespace Engine {
         for (auto& particle : particles) {
             if (particle.life > 0.0f) {
                 particle.pos += particle.speed;
-                particle_render_buffer[i] = particle.pos.x / width * 2 - 1;
-                particle_render_buffer[i + 1] = particle.pos.y / height * 2 - 1;
-                particle_render_buffer[i + 2] = particle.size;
+                particleDataBufferData[i] = particle.pos.x / width * 2 - 1;
+                particleDataBufferData[i + 1] = particle.pos.y / height * 2 - 1;
+                particleDataBufferData[i + 2] = particle.size;
                 auto color = particle.colorFunc(1.0f - particle.life / particle.maxLife);
-                particle_render_buffer[i + 3] = color.r;
-                particle_render_buffer[i + 4] = color.g;
-                particle_render_buffer[i + 5] = color.b;
+                particleDataBufferData[i + 3] = color.r;
+                particleDataBufferData[i + 4] = color.g;
+                particleDataBufferData[i + 5] = color.b;
                 particle.life -= 1.0f;
             }
             else {
-                particle_render_buffer[i] = -100;   // move dead particles off screen
+                particleDataBufferData[i] = -100;   // move dead particles off screen
             }
             i += 6;
         }
@@ -128,10 +128,8 @@ namespace Engine {
         if (Options::drawParticles) {
             shader.Bind();
             glBindVertexArray(VAO);
-            glNamedBufferSubData(VBO, NULL, particle_render_buffer.size() * sizeof(GLfloat), particle_render_buffer.data());
-            glEnable(GL_PROGRAM_POINT_SIZE);
-            glDrawArrays(GL_POINTS, 0, particles.size());
-            glDisable(GL_PROGRAM_POINT_SIZE);
+            glNamedBufferSubData(particleDataBuffer, NULL, particleDataBufferData.size() * sizeof(GLfloat), particleDataBufferData.data());
+            glDrawArraysInstanced(GL_TRIANGLE_STRIP, 0, 4, particles.size());
             glBindVertexArray(0);
         }
     }

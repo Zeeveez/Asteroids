@@ -1,5 +1,8 @@
 ﻿// Asteroids.cpp : Defines the entry point for the application.
 //
+#ifdef _WIN32
+#include <windows.h>
+#endif
 
 #include <GL/glew.h>
 
@@ -20,6 +23,7 @@
 #include "Engine/Options/Options.h"
 #include <string>
 
+
 void Game(GLFWwindow* window);
 void GLAPIENTRY
 MessageCallback(GLenum source,
@@ -36,8 +40,14 @@ MessageCallback(GLenum source,
         type, severity, message);
 }
 
+
 // During init, enable debug output
+#ifdef _WIN32
+INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
+    FreeConsole();
+#else
 int main() {
+#endif
     glfwInit();
     Engine::Audio::LoadDeviceAndContext();
     GLFWwindow* window = Engine::CreateGameWindow(Engine::Options::screenSize.first, Engine::Options::screenSize.second, "Asteroids", Engine::key_callback, Engine::mouse_callback, Engine::character_callback);
@@ -58,7 +68,7 @@ int main() {
     return 0;
 }
 
-void Game(GLFWwindow* window) {
+void Game(GLFWwindow * window) {
     Engine::InputState inputState = {};
     void* oldInputState = glfwGetWindowUserPointer(window);
     glfwSetWindowUserPointer(window, (void*)(&inputState));
