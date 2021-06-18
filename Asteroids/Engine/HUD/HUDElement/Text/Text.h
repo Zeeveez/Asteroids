@@ -19,7 +19,6 @@ namespace Engine {
             BOTTOM_RIGHT
         };
         void DrawString(Texture& texture, Shader& shader, Anchor anchor, float x, float y, int size, std::string str);
-        void DrawCharacter(Texture& texture, Shader& shader, float x, float y, float w, float h, char c);
     }
 }
 

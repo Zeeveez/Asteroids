@@ -81,10 +81,10 @@ namespace Engine {
                 float y = 0.05f * (options.size() - 1) - 0.15f * i;
                 if (std::holds_alternative<std::tuple<int*, int*, int*>>(std::get<1>(options[i]))) {
                     std::tuple<int*, int*, int*> var = std::get<std::tuple<int*, int*, int*>>(std::get<1>(options[i]));
-                    Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32,
+                    Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32.0f,
                         (selection == i ? "> " : "  ") + std::get<0>(options[i]) + "  < " + std::to_string(*std::get<0>(var)) + " >");
                 } else {
-                    Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32,
+                    Text::DrawString(font, textShader, Text::Anchor::MIDDLE_LEFT, -0.375f, y, 32.0f,
                         (selection == i ? "> " : "  ") + std::get<0>(options[i]));
                 }
             }
