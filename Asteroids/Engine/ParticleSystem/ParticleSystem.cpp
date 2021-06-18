@@ -108,8 +108,8 @@ namespace Engine {
         for (auto& particle : particles) {
             if (particle.life > 0.0f) {
                 particle.pos += particle.speed;
-                particleDataBufferData[i] = particle.pos.x / width * 2 - 1;
-                particleDataBufferData[i + 1] = particle.pos.y / height * 2 - 1;
+                particleDataBufferData[i] = particle.pos.x;
+                particleDataBufferData[i + 1] = particle.pos.y;
                 particleDataBufferData[i + 2] = particle.size;
                 auto color = particle.colorFunc(1.0f - particle.life / particle.maxLife);
                 particleDataBufferData[i + 3] = color.r;

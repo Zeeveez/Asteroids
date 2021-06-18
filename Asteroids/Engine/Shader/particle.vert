@@ -15,8 +15,8 @@ out vec3 fragmentColor;
 
 void main() {
     gl_Position = vec4(
-        particlePosSize.z * vert.x / res.x + particlePosSize.x,
-        particlePosSize.z * vert.y / res.y + particlePosSize.y,
+        (particlePosSize.x + particlePosSize.z / 2 * vert.x) / res.x * 2 - 1.0f,
+        (particlePosSize.y + particlePosSize.z / 2 * vert.y) / res.y * 2 - 1.0f,
         0,
         1);
     fragmentColor = particleColor;
