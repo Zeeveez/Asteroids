@@ -44,6 +44,7 @@ namespace Engine {
             shader.Bind();
             texture.Bind(shader);
             glUniform2f(glGetUniformLocation(shader.program, "res"), Engine::Options::screenSize.first, Engine::Options::screenSize.second);
+            // TODO: Actually use font size
             glUniform3f(glGetUniformLocation(shader.program, "anchorSize"), x, y, size);
 
             GLuint characterVertexBuffer;
