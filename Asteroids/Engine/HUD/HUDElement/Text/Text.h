@@ -18,7 +18,7 @@ namespace Engine {
             BOTTOM_CENTER,
             BOTTOM_RIGHT
         };
-        void DrawString(Texture& texture, Shader& shader, Anchor anchor, float x, float y, int size, std::string str);
+        void DrawString(Texture& texture, Shader& shader, Anchor anchor, float x, float y, float size, std::string str);
     }
 }
 

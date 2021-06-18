@@ -1,10 +1,8 @@
 ﻿// Asteroids.cpp : Defines the entry point for the application.
 //
 #ifdef _WIN32
-#ifndef DEBUG
 #include <windows.h>
-#endif
-#endif
+#endif // _WIN32
 
 #include <GL/glew.h>
 
@@ -45,14 +43,16 @@ MessageCallback(GLenum source,
 
 // During init, enable debug output
 #ifdef _WIN32
-#ifdef DEBUG
-int main() {
-#else
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
-#endif
+#ifdef DEBUG
+    AllocConsole();
+    freopen("CONIN$", "r", stdin);
+    freopen("CONOUT$", "w", stdout);
+    freopen("CONOUT$", "w", stderr);
+#endif // DEBUG
 #else
 int main() {
-#endif
+#endif // _WIN32
     glfwInit();
     Engine::Audio::LoadDeviceAndContext();
     GLFWwindow* window = Engine::CreateGameWindow(Engine::Options::screenSize.first, Engine::Options::screenSize.second, "Asteroids", Engine::key_callback, Engine::mouse_callback, Engine::character_callback);
