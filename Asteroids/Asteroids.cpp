@@ -1,7 +1,9 @@
 ﻿// Asteroids.cpp : Defines the entry point for the application.
 //
 #ifdef _WIN32
+#ifndef DEBUG
 #include <windows.h>
+#endif
 #endif
 
 #include <GL/glew.h>
@@ -43,8 +45,11 @@ MessageCallback(GLenum source,
 
 // During init, enable debug output
 #ifdef _WIN32
+#ifdef DEBUG
+int main() {
+#else
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, INT nCmdShow) {
-    FreeConsole();
+#endif
 #else
 int main() {
 #endif
