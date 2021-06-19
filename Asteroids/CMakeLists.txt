@@ -40,6 +40,9 @@ configure_file(./Engine/Shader/text.frag ${CMAKE_CURRENT_BINARY_DIR}/bin/text.fr
 configure_file(./Engine/Shader/text.vert ${CMAKE_CURRENT_BINARY_DIR}/bin/text.vert COPYONLY)
 configure_file(./Engine/HUD/HUDElement/Text/font.dds ${CMAKE_CURRENT_BINARY_DIR}/bin/font.dds COPYONLY)
 
+configure_file(./Engine/Shader/postproc.frag ${CMAKE_CURRENT_BINARY_DIR}/bin/postproc.frag COPYONLY)
+configure_file(./Engine/Shader/postproc.vert ${CMAKE_CURRENT_BINARY_DIR}/bin/postproc.vert COPYONLY)
+
 configure_file(./Engine/Audio/MenuSelect.wav ${CMAKE_CURRENT_BINARY_DIR}/bin/MenuSelect.wav COPYONLY)
 configure_file(./Engine/Audio/Explosion.wav ${CMAKE_CURRENT_BINARY_DIR}/bin/Explosion.wav COPYONLY)
 configure_file(./Engine/Audio/Shoot.wav ${CMAKE_CURRENT_BINARY_DIR}/bin/Shoot.wav COPYONLY)
