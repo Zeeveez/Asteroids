@@ -128,27 +128,27 @@ namespace Asteroids {
     }
 
     void AsteroidsGame::DrawFrame() {
-        Engine::PostProcess([this]() {
+        Engine::PostProcess([&]() {
             particleSystem.Render();
-            for (auto& bullet : bullets) {
-                if (bullet.IsAlive()) {
-                    bullet.Draw(shader, width, height);
-                }
+                            });
+        for (auto& bullet : bullets) {
+            if (bullet.IsAlive()) {
+                bullet.Draw(shader, width, height);
             }
-            for (auto& asteroid : asteroids) {
-                if (asteroid.IsAlive()) {
-                    asteroid.Draw(shader, width, height);
-                }
+        }
+        for (auto& asteroid : asteroids) {
+            if (asteroid.IsAlive()) {
+                asteroid.Draw(shader, width, height);
             }
-            for (auto& upgrade : upgrades) {
-                if (upgrade.IsAlive()) {
-                    upgrade.Draw(shader, width, height, 1.0f, 1.0f, 0.0f);
-                }
+        }
+        for (auto& upgrade : upgrades) {
+            if (upgrade.IsAlive()) {
+                upgrade.Draw(shader, width, height, 1.0f, 1.0f, 0.0f);
             }
-            if (ship.IsAlive()) {
-                ship.Draw(shader, width, height, 1 - (ship.Shield() ? (float)ship.Shield() / ship.FullShield() : 0), 1.0f, 1.0f);
-            }
-        });
+        }
+        if (ship.IsAlive()) {
+            ship.Draw(shader, width, height, 1 - (ship.Shield() ? (float)ship.Shield() / ship.FullShield() : 0), 1.0f, 1.0f);
+        }
         for (int i = 0; i < lives; i++) {
             Ship lifeShip = Ship((i + 1) * 40.0f, 40.0f, 3.1415926535f, 0.0f, 0.0f, 0.0f, &particleSystem);
             lifeShip.Draw(shader, width, height);
