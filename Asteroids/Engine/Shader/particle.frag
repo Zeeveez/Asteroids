@@ -1,4 +1,4 @@
-#version 460 core
+#version 420 core
 // BUILT IN INPUTS
 // in vec4 gl_FragCoord;
 // in bool gl_FrontFacing;

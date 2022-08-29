@@ -7,6 +7,7 @@
 
 namespace Engine {
     GLFWwindow* CreateGameWindow(int width, int height, const char* title, GLFWkeyfun keycallback, GLFWmousebuttonfun mousecallback, GLFWcharfun charactercallback);
+    void GLFWWindowErrorHandler(int error, const char* desc);
 }
 
 #endif

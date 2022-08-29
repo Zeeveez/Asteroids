@@ -1,4 +1,4 @@
-#version 460 core
+#version 420 core
 // BUILT IN INPUTS
 // in int gl_VertexID;
 // in int gl_InstanceID;
